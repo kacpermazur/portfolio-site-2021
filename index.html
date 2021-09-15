@@ -13,20 +13,17 @@
   </head>
 
   <body>
-
-
-
     <section id="intro_section">
     </section>
 
-    <section style="margin-top: 5%;" id="games_section">
+    <section style="margin-top: 5%;" id="projects_section">
 
       <div class="container">
-        <div class="row">  
 
+        <div class="row">
           <div class="col-lg-6">
 
-            <div class="card text-white">
+            <div class="card text-white projectCard">
               <!-- BACKGROUND IMAGE -->
               <img style="width: 100%; height: 270px;" class="bd-placeholder-img bd-placeholder-img-lg card-img gameCardImage" src="https://via.placeholder.com/600x270.png" alt="bgImage">
         
@@ -52,61 +49,18 @@
                 <div style="margin-top: 12%;" class="text-center">
                   <a href="#" class="btn btn-outline-primary gameCardButton fade-out-top ">Go somewhere</a>
                 </div>
-
               </div>
             </div>
 
           </div>
         </div>
+
       </div>
-
-    </section>
-
-    <section id="software_section">
-
     </section>
 
     <!-- SCRIPTS -->
     <script src="/js/bootstrap.js"></script>
-
-
-    <!-- SCRIPTS OnHoverEffects -->
-    <script>
-      function OnCardMouseEnter(e)  { CardHoverEffect(e, true) }
-      function OnCardMouseExit(e)   { CardHoverEffect(e, false) }
-
-      function CardHoverEffect(e, isHovered)
-      {
-        const imageTar    = e.parentElement.getElementsByClassName("gameCardImage")[0];
-        const paraTextTar = e.getElementsByClassName("gameCardText")[0];
-        const buttonTar = e.getElementsByClassName("gameCardButton")[0];
-
-        if(isHovered === true)
-        {
-          paraTextTar.classList.remove("text-blur-out");
-          paraTextTar.classList.add("text-focus-in");
-
-          buttonTar.classList.remove("fade-out-top");
-          buttonTar.classList.add("fade-in-bottom");
-
-          imageTar.style.filter = "blur(3px)";
-
-          console.log(e.getElementsByClassName("t"));
-        }
-        else
-        {
-          paraTextTar.classList.remove("text-focus-in");
-          paraTextTar.classList.add("text-blur-out");
-
-          buttonTar.classList.remove("fade-in-bottom");
-          buttonTar.classList.add("fade-out-top");
-          
-          imageTar.style.filter = "blur(0px)"; 
-          console.log("f");
-        }
-      }
-
-    </script>
+    <script src="/js/card.js"></script>
 
   </body>
 </html>
