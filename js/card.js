@@ -9,7 +9,7 @@ function CardHoverEffect(e, isHovered)
 
     if(isHovered === true)
     {
-        paraTextTar.classList.remove("text-b lur-out");
+        paraTextTar.classList.remove("text-blur-out");
         paraTextTar.classList.add("text-focus-in");
 
         buttonTar.classList.remove("fade-out-top");
