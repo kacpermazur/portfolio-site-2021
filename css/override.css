@@ -45,6 +45,31 @@
     transform: rotate(195deg);
 }
 
+.soicalcard
+{
+    margin: 0 auto;
+    width: 80%;
+
+    border: unset;
+    background-color:   unset !important;
+    border-radius:      unset !important;
+    box-shadow: 12px 12px 37px -15px rgb(29 28 13 / 63%);
+}
+
+.clickable-icon
+{
+
+    font-size: 5em;
+}
+
+.card-bottom
+{
+    width: 100%;
+    height: 100%;
+
+    text-align: center;
+}
+
 #title_section
 {
     background-color: #00acaf;
@@ -55,6 +80,10 @@
     background-color: #e3eb00;
 }
 
+#contacts_section
+{
+    background-color: #e3eb00;
+}
 .roundImage
 {
     position: absolute;
@@ -88,6 +117,11 @@
 {
     text-align: right;
     margin-right: 15%;
+}
+
+.contactTitle
+{
+    text-align: center;
 }
 
 .seperatorLine
