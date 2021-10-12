@@ -22,15 +22,15 @@
 
 .introImageCard
 {
-    height: 400px;
-    width: 400px;
+    height: 550px;
+    width: 520px;
 
     background-color: #ff869a;
 
-    margin-left: -5%;
-    margin-top: -8%;
+    margin-left: -12%;
+    margin-top: -12%;
 
-    border: 20px solid #e3eb00;
+    border: 26px solid #e3eb00;
     border-radius: 30px;
     transform: rotate(165deg);
 
@@ -40,9 +40,16 @@
 
 .img-intro
 {
-    margin-left: -10px;
-    margin-top: -52px;
+    height: 680px;
+
+    margin-left: -25px;
+    margin-top: -70px;
     transform: rotate(195deg);
+}
+
+.navbar-nav
+{
+    font-size: 1.6rem !important;
 }
 
 .soicalcard
@@ -58,7 +65,6 @@
 
 .clickable-icon
 {
-
     font-size: 5em;
 }
 
@@ -97,7 +103,6 @@
    
     border: 15px solid #e3eb00;
     border-radius: 200px;
-
 }
 
 .spaceShip
@@ -128,4 +133,44 @@
 {
     border-right: 5px solid #00acaf;
     height: 100px;
+}
+
+/* -- MEDIA OVERRIDES -- */
+
+@media (min-width: 1500px) 
+{ 
+    .navbar-nav
+    {
+        margin-left: 10%;
+        font-size: 1.9rem !important;
+    }
+}
+
+@media (max-width: 1200px) 
+{ 
+    .headerLinks
+    {
+        margin-left: 25%;
+        margin-right: 25%;
+    }
+    
+}
+
+@media (max-width: 991.98px) 
+{ 
+    .navbar-toggler
+    {
+        background-color: red;
+    }
+
+    .headerLinks
+    {
+        margin-left: 0 !important;
+        margin-right: 55%;
+    }
+
+    .introImageCard
+    {
+    }
+
 }
