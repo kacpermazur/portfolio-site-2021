@@ -1,3 +1,9 @@
+body,html
+{
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 .intro_section
 {
     background: #e3eb00;
@@ -80,6 +86,11 @@
     height: 100%;
 
     text-align: center;
+}
+
+.card-body
+{
+    padding: unset !important;
 }
 
 #title_section
