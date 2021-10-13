@@ -152,6 +152,17 @@ body,html
     height: 100px;
 }
 
+.soicalCards
+{
+    margin-top: 15%;
+}
+
+.contact-area
+{
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
 /* -- MEDIA OVERRIDES -- */
 @media (min-width: 1500px) 
 { 
@@ -216,6 +227,20 @@ body,html
         margin-bottom: 55%  !important;
     }
 
+    .soicalCards
+    {
+        margin-top: 0;
+    }
+
+    .contact-area
+    {
+        margin-top:5%;
+    }
+
+    .social-row
+    {
+        margin-top: 5%;
+    }
 }
 
 @media (max-width: 880px) 
