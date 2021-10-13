@@ -4,6 +4,11 @@ body,html
     overflow-x: hidden;
 }
 
+.nav-row
+{
+    height: 10vh;
+}
+
 .intro_section
 {
     background: #e3eb00;
@@ -154,7 +159,7 @@ body,html
 
 .soicalCards
 {
-    margin-top: 15%;
+    margin-top: 10%;
 }
 
 .contact-area
@@ -205,15 +210,29 @@ body,html
         margin-left: -35%;
         margin-top: 5%;
     }
+
+    .roundImage
+    {
+        margin-top: -185px;
+        margin-left: 0;
+    }
+
+    .spaceShip
+    {
+        height: 500px;
+        width: 500px;
+
+        margin-top: -20%;
+        margin-left: -35%;
+        z-index: -100;
+
+        pointer-events: none;
+        user-select: none;
+    }
 }
 
 @media (max-width: 991.98px) 
 { 
-    .navbar-toggler
-    {
-        background-color: red;
-    }
-
     .headerLinks
     {
         margin-left: 0 !important;
@@ -248,5 +267,25 @@ body,html
     .headerLinks
     {
         margin-right: 38%;
+    }
+}
+
+@media (max-width: 767.98px)
+{
+    .projectTitle
+    {
+        text-align: left;
+        margin-right: 0;
+        margin-left: 20%;
+    }
+
+    .project-col
+    {
+        flex-grow: 0.5;
+    }
+
+    .nav-row
+    {
+        height: auto;
     }
 }
