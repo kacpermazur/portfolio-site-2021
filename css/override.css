@@ -2,6 +2,7 @@ body,html
 {
     max-width: 100%;
     overflow-x: hidden;
+    background-color: #e3eb00;;
 }
 
 .nav-row
