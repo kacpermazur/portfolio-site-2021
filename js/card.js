@@ -1,30 +1,35 @@
-function OnCardMouseEnter(e)  { CardHoverEffect(e, true) }
-function OnCardMouseExit(e)   { CardHoverEffect(e, false) }
+const ROW                   = "projectCard-Row";
 
-function CardHoverEffect(e, isHovered)
+const CARD                  = "projectCard";
+const CARD_OVERLAY          = "projectCard-OverlayZone";
+const CARD_IMAGE            = "projectCard-Image";
+const CARD_TAGS             = "projectCard-Tags";
+const CARD_PREVIEW_TEXT     = "projectCard-PreviewText";
+const CARD_PREVIEW_BUTTON   = "projectCard-PreviewButton";
+const CARD_FULL_BODY        = "projectCard-Collapse";
+
+
+
+
+
+
+
+
+
+
+
+
+
+if(document.readyState == 'loading')
 {
-    const imageTar    = e.parentElement.getElementsByClassName("gameCardImage")[0];
-    const paraTextTar = e.getElementsByClassName("gameCardText")[0];
-    const buttonTar   = e.getElementsByClassName("gameCardButton")[0];
+    document.addEventListener('DOMContentLoaded', Start)
+}
+else
+{
+    Start();
+}
 
-    if(isHovered === true)
-    {
-        paraTextTar.classList.remove("text-blur-out");
-        paraTextTar.classList.add("text-focus-in");
-
-        buttonTar.classList.remove("fade-out-top");
-        buttonTar.classList.add("fade-in-bottom");
-
-        imageTar.style.filter = "blur(3px)";
-    }
-    else
-    {
-        paraTextTar.classList.remove("text-focus-in");
-        paraTextTar.classList.add("text-blur-out");
-
-        buttonTar.classList.remove("fade-in-bottom");
-        buttonTar.classList.add("fade-out-top");
-        
-        imageTar.style.filter = "blur(0px)"; 
-    }
+function Start()
+{
+    console.log("Loaded");
 }

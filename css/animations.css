@@ -1,8 +1,3 @@
-.gameCardImage
-{
-    transition: .3s all;
-}
-
 .text-focus-in 
 {
 	-webkit-animation: text-focus-in 0.3s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;

@@ -1,0 +1,13 @@
+.projectCard-Collapse
+{
+    display: block;
+    color: black;
+    box-shadow: 10px 10px 37px -15px rgb(29 28 13 / 63%);
+}
+
+.projectCard-image
+{
+    transition: .3s all;
+    width: 100%; 
+    height: 270px;
+}
