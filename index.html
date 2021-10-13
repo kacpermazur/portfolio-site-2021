@@ -126,7 +126,7 @@
         <div class="row">
           <div class="col-lg-6" style="z-index: 22;">
 
-            <div class="card text-white projectCard">
+            <div class="card text-white gameCardBody">
               <!-- BACKGROUND IMAGE -->
               <img style="width: 100%; height: 270px;" class="bd-placeholder-img bd-placeholder-img-lg card-img gameCardImage" src="https://via.placeholder.com/600x270.png" alt="bgImage">
         
@@ -137,7 +137,7 @@
                 </h4>
 
                 <!-- SKILL TAGS -->
-                <h6 class="card-text">
+                <h6 class="card-text gameCardTags">
                   <span class="badge bg-dark">Tag</span>
                   <span class="badge bg-secondary">Tag</span>
                   <span class="badge bg-secondary">Tag</span>
@@ -150,9 +150,18 @@
 
                 <!-- BUTTON LINKS -->
                 <div style="margin-top: 12%;" class="text-center">
-                  <a href="#" class="btn btn-outline-primary gameCardButton fade-out-top ">Go somewhere</a>
+
+                  <button class="btn btn-outline-primary gameCardButton fade-out-top" 
+                  type="button" data-bs-toggle="collapse" data-bs-target="#gameCardExtra" 
+                  aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle GameCard">Go somewhere</button>
                 </div>
+                
               </div>
+
+              <div class="collapse gameCardColapse" id="gameCardExtra">
+                lol
+              </div>
+
             </div>
 
           </div>

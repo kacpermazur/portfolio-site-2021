@@ -10,6 +10,13 @@ body,html
     height: 10vh;
 }
 
+.gameCardColapse
+{
+    display: block;
+    color: black;
+    box-shadow: 10px 10px 37px -15px rgb(29 28 13 / 63%);
+}
+
 .intro_section
 {
     background: #e3eb00;

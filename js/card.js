@@ -5,7 +5,7 @@ function CardHoverEffect(e, isHovered)
 {
     const imageTar    = e.parentElement.getElementsByClassName("gameCardImage")[0];
     const paraTextTar = e.getElementsByClassName("gameCardText")[0];
-    const buttonTar = e.getElementsByClassName("gameCardButton")[0];
+    const buttonTar   = e.getElementsByClassName("gameCardButton")[0];
 
     if(isHovered === true)
     {
