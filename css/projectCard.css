@@ -21,3 +21,36 @@
 {
     margin-left: 1%;
 }
+
+.card-title
+{
+    display: inline-flex;
+}
+
+.projectCard-TagArea
+{
+    display: inline-flex;
+}
+
+.projectCard-FullBody
+{
+    position: relative;
+    background-color: red;
+}
+
+@media (max-width: 575.98px) { 
+    .projectCard-PreviewText
+    {
+        font-size: 95%;
+    }
+
+    .projectCard-PreviewButton
+    {
+        font-size: 95%;
+    }
+
+    .projectCard-Tag
+    {
+        font-size: 60%;
+    }
+ }

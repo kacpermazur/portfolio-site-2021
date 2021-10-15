@@ -6,9 +6,11 @@ const CARD_OVERLAY          = "projectCard-OverlayZone";
 const CARD_IMAGE            = "projectCard-Image";
 const CARD_TAGAREA          = "projectCard-TagArea";
 const CARD_TAG              = "projectCard-Tag"
+const CARD_PREVIEW_BODY     = "projectCard-PreviewBody";
 const CARD_PREVIEW_TEXT     = "projectCard-PreviewText";
 const CARD_PREVIEW_BUTTON   = "projectCard-PreviewButton";
-const CARD_FULL_BODY        = "projectCard-Collapse";
+const CARD_FULL_BODY        = "projectCard-FullBody";
+const CARD_HIDE_BUTTON      = "projectCard-HideButton";
 
 const Logo = {"Unity":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Unity_Technologies_logo.svg/1280px-Unity_Technologies_logo.svg.png", 
 "Unreal":"link", 
@@ -45,47 +47,107 @@ class Card
         this.linkButtons = linkButtons // Need
     }
 
-    GetState()  {    return this.state;}
-    Inspect()   {    this.state = CARD_STATE.HOVER;}
-    Open()      {    this.state = CARD_STATE.OPENED;}
-    Close()     {    this.state = CARD_STATE.CLOSED;}
+    GetState()  
+    {    
+        return this.state;
+    }
+
+    HoverEnter(cardHTHML)     
+    {    
+        this.state = CARD_STATE.HOVER;
+
+        const previewText   = cardHTHML.getElementsByClassName(CARD_PREVIEW_TEXT)[0];
+        const previewButton = cardHTHML.getElementsByClassName(CARD_PREVIEW_BUTTON)[0];
+        const previewImage  = cardHTHML.parentElement.getElementsByClassName(CARD_IMAGE)[0];
+
+        previewText.classList.remove("text-blur-out");
+        previewText.classList.add("text-focus-in");
+
+        previewButton.classList.remove("fade-out-top");
+        previewButton.classList.add("fade-in-bottom");
+
+        previewImage.style.filter = "blur(3px)";
+    }
+
+    HoverExit(cardHTHML)     
+    {    
+        this.state = CARD_STATE.CLOSED;
+
+        const previewText   = cardHTHML.getElementsByClassName(CARD_PREVIEW_TEXT)[0];
+        const previewButton = cardHTHML.getElementsByClassName(CARD_PREVIEW_BUTTON)[0];
+        const previewImage  = cardHTHML.parentElement.getElementsByClassName(CARD_IMAGE)[0];
+
+        previewText.classList.remove("text-focus-in");
+        previewText.classList.add("text-blur-out");
+
+        previewButton.classList.remove("fade-in-bottom");
+        previewButton.classList.add("fade-out-top");
+        
+        previewImage.style.filter = "blur(0px)";
+    }
+
+    Open(cardHTHML)      
+    {    
+        const previewBody = cardHTHML.getElementsByClassName(CARD_PREVIEW_BODY)[0];
+        const fullBody    = cardHTHML.getElementsByClassName(CARD_FULL_BODY)[0];
+
+        previewBody.classList.add("d-none");
+        fullBody.classList.remove("d-none");
+
+        this.state = CARD_STATE.OPENED;
+    }
+
+    Close(cardHTHML)     
+    {    
+        const previewBody = cardHTHML.getElementsByClassName(CARD_PREVIEW_BODY)[0];
+        const fullBody    = cardHTHML.getElementsByClassName(CARD_FULL_BODY)[0];
+
+        fullBody.classList.add("d-none");
+        previewBody.classList.remove("d-none");
+        
+        this.state = CARD_STATE.CLOSED;
+    }
 
     static ToHTML(Card)
     {
         const cardTemplate = `<div class="card text-white projectCard">
-        <!-- BACKGROUND IMAGE -->
-        <img class="bd-placeholder-img bd-placeholder-img-lg card-img projectCard-Image" src="${Card.image}" alt="bgImage">
-  
-        <div class="card-img-overlay projectCard-OverlayZone">
-            <div class="row justify-content-between">
-                <div class="col">
-                <h4 class="card-title">${Card.title}</h4>
+        <img class="bd-placeholder-img bd-placeholder-img-lg card-img projectCard-Image" src="${Card.image}" alt="bgImage" style="filter: blur(0);">
 
+        <div class="card-img-overlay projectCard-OverlayZone">
+          <div class="row w-100 h-100 g-0 projectCard-PreviewBody">
+
+            <div class="col align-self-start" style="height: 15%; margin-bottom: 2%;">
+              <h4 class="card-title">${Card.title}</h4>
                 <!-- SKILL TAGS -->
                 <h6 class="card-text projectCard-TagArea"></h6>
-                </div>
-
-                <div class="col">
-                <!-- TITLE AND TECH LOGO -->
-                <img class="img-fluid float-end m-3" style="height: 40px;" src="${Card.logo}" alt="ProjectLogo">
-                </div>
             </div>
 
-          <!-- DESCRIPTION -->
-          <p style="margin-top: 2.5%;" class="card-text text-blur-out projectCard-PreviewText">
-            ${Card.previewText}
-          </p>
+            <div class="col-3 d-none d-sm-block" style="height: 15%;">
+              <!-- TITLE AND TECH LOGO -->
+              <img class="img-fluid float-end" style="height: 40px;" src="${Card.logo}" alt="ProjectLogo">
+            </div>
 
-          <!-- BUTTON LINKS -->
-          <div style="margin-top: 12%;" class="text-center">
-            <button class="btn btn-outline-primary fade-out-top projectCard-PreviewButton" type="button">Show More</button>
+            <div class="col-12 align-self-start">
+              <p class="card-text projectCard-PreviewText lh-1 text-blur-out">
+                ${Card.previewText}
+              </p>
+            </div>
+
+            <div class="col-12 align-self-end text-center">
+              <button class="btn btn-outline-primary projectCard-PreviewButton fade-out-top" type="button">Show More</button>
+            </div>
+
           </div>
         </div>
 
-        <div class="collapse projectCard-Collapse" id="projectCard-Body">
-            ${Card.fullText}
+        <div class="row align-items-end w-100 g-0 d-none projectCard-FullBody">
+          
+            <div class="col-12 align-self-end text-center">
+                <button class="btn btn-outline-primary projectCard-HideButton" type="button">Collapse</button>
+            </div>
+
         </div>
-      </div>`;
+     </div>`;
 
         const tempCardHTML = document.createElement('div');
         tempCardHTML.className = "col-lg-6";
@@ -125,7 +187,6 @@ class CardFactory
             nRow.className = ROW;
             projectCardArea.appendChild(nRow);
             this.projectRowCount++;
-            
         }
         
         const currentRow = document.getElementsByClassName(ROW)[this.projectRowCount];
@@ -136,19 +197,50 @@ class CardFactory
 
         this.projectCards.set(card.title, card);
         this.projectCardCount++;
-        console.log(`Card: ${Card.title} has been added!`);
+
+        console.log(`Card: ${card.title} has been added!`);
     }
 
     static #RegisterEvents(cardHTML)
     {   
-        const overLay = cardHTML.getElementsByClassName(CARD_OVERLAY)[0];
+        const overLay       = cardHTML.getElementsByClassName(CARD_OVERLAY)[0];
+        const previewButton = cardHTML.getElementsByClassName(CARD_PREVIEW_BUTTON)[0];
+        const hideButton    = cardHTML.getElementsByClassName(CARD_HIDE_BUTTON)[0];
+
         overLay.addEventListener('mouseenter', this.#OnHover);
-        overLay.addEventListener('mouseleave', test);
+        overLay.addEventListener('mouseleave', this.#OnHover);
+
+        previewButton.addEventListener('click', this.#OnPreview);
+        hideButton.addEventListener('click', this.#OnHide);
     }
 
     static #OnHover(e)
     {
-        console.log(e.target.getElementsByClassName(CARD_TITLE)[0].innerHTML);
+        const titleA = e.target.getElementsByClassName(CARD_TITLE)[0].innerHTML;
+        const cardRef = CardFactory.projectCards.get(titleA);
+
+        if(cardRef.GetState() == CARD_STATE.CLOSED)
+            cardRef.HoverEnter(e.target);
+        else if(cardRef.GetState() == CARD_STATE.HOVER)
+            cardRef.HoverExit(e.target);
+    }
+
+    static #OnPreview(e)
+    {
+        const cardHTML = e.target.parentElement.parentElement.parentElement.parentElement;
+        const titleA = cardHTML.getElementsByClassName(CARD_TITLE)[0].innerHTML;
+        const cardRef = CardFactory.projectCards.get(titleA);
+
+        cardRef.Open(cardHTML);
+    }
+
+    static #OnHide(e)
+    {
+        const cardHTML = e.target.parentElement.parentElement.parentElement.parentElement;
+        const titleA = cardHTML.getElementsByClassName(CARD_TITLE)[0].innerHTML;
+        const cardRef = CardFactory.projectCards.get(titleA);
+
+        cardRef.Close(cardHTML);
     }
 
     static GetActiveCard()
@@ -161,17 +253,6 @@ class CardFactory
         console.log(`Card Count: ${this.projectCardCount} | Row Count: ${this.projectRowCount}`);
     }
 }
-
-
-function test(e)
-{
-    console.log(`fwefwsadasdefwe`);
-}
-
-
-
-
-
 
 if(document.readyState == 'loading')
 {
@@ -189,4 +270,5 @@ function Start()
     CardFactory.Add(cardA);
     CardFactory.LogCards();
 }
+    
 
