@@ -88,8 +88,12 @@ class Card
 
     Open(cardHTHML)      
     {    
+        const image       = cardHTHML.getElementsByClassName(CARD_IMAGE)[0];
         const previewBody = cardHTHML.getElementsByClassName(CARD_PREVIEW_BODY)[0];
         const fullBody    = cardHTHML.getElementsByClassName(CARD_FULL_BODY)[0];
+
+        image.classList.remove("image-full");
+        image.classList.add("image-cut");
 
         previewBody.classList.add("d-none");
         fullBody.classList.remove("d-none");
@@ -99,8 +103,12 @@ class Card
 
     Close(cardHTHML)     
     {    
+        const image       = cardHTHML.getElementsByClassName(CARD_IMAGE)[0];
         const previewBody = cardHTHML.getElementsByClassName(CARD_PREVIEW_BODY)[0];
         const fullBody    = cardHTHML.getElementsByClassName(CARD_FULL_BODY)[0];
+
+        image.classList.remove("image-cut");
+        image.classList.add("image-full");
 
         fullBody.classList.add("d-none");
         previewBody.classList.remove("d-none");
@@ -110,44 +118,53 @@ class Card
 
     static ToHTML(Card)
     {
-        const cardTemplate = `<div class="card text-white projectCard">
-        <img class="bd-placeholder-img bd-placeholder-img-lg card-img projectCard-Image" src="${Card.image}" alt="bgImage" style="filter: blur(0);">
+        const cardTemplate = `
+    <div class="card text-white projectCard h-100">
+
+        <img class="card-img projectCard-Image image-full" src="${Card.image}" alt="bgImage" style="filter: blur(0);">
 
         <div class="card-img-overlay projectCard-OverlayZone">
-          <div class="row w-100 h-100 g-0 projectCard-PreviewBody">
+        
+            <div class="row w-100 g-0 projectCard-PreviewBody">
 
-            <div class="col align-self-start" style="height: 15%; margin-bottom: 2%;">
-              <h4 class="card-title">${Card.title}</h4>
-                <!-- SKILL TAGS -->
-                <h6 class="card-text projectCard-TagArea"></h6>
+                <div class="col align-self-start">
+                    <h4 class="card-title">${Card.title}</h4>
+                    <h6 class="card-text projectCard-TagArea"></h6>
+                </div>
+
+                <div class="col-3 d-none d-sm-block">
+                    <img class="img-fluid float-end" style="height: 40px;" src="${Card.logo}" alt="ProjectLogo">
+                </div>
+
+                <div class="col-12 align-self-start">
+                    <p class="card-text projectCard-PreviewText lh-1 text-blur-out">
+                        ${Card.previewText}
+                    </p>
+                </div>
+
+                <div class="col-12 align-self-end text-center">
+                    <button class="btn btn-outline-primary projectCard-PreviewButton fade-out-top" type="button">Show More</button>
+                </div>
+
             </div>
 
-            <div class="col-3 d-none d-sm-block" style="height: 15%;">
-              <!-- TITLE AND TECH LOGO -->
-              <img class="img-fluid float-end" style="height: 40px;" src="${Card.logo}" alt="ProjectLogo">
-            </div>
-
-            <div class="col-12 align-self-start">
-              <p class="card-text projectCard-PreviewText lh-1 text-blur-out">
-                ${Card.previewText}
-              </p>
-            </div>
-
-            <div class="col-12 align-self-end text-center">
-              <button class="btn btn-outline-primary projectCard-PreviewButton fade-out-top" type="button">Show More</button>
-            </div>
-
-          </div>
         </div>
 
-        <div class="row align-items-end w-100 g-0 d-none projectCard-FullBody">
-          
+        <div class="row w-100 g-0 d-none projectCard-FullBody"> 
+        
+            <div class="col-12">
+                <p class="card-text lh-1">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tristique, nisl quis pellentesque vulputate, dui ligula mattis nisi, nec ornare leo velit quis magna. Nullam sed pulvinar lectus, vel vulputate ligula. Phasellus ac convallis lorem, quis efficitur quam. Pellentesque commodo condimentum augue non pulvinar. Nulla tincidunt tincidunt neque, id gravida orci fringilla non. Vestibulum lorem diam, aliquet molestie tempor sed, fringilla nec eros. In gravida erat diam, sed tincidunt sapien varius a. Donec sodales risus sed diam molestie molestie. Nullam lobortis fermentum facilisis. Nullam at orci posuere, laoreet orci sed, mattis diam. Integer velit erat, varius ac est gravida, tempor sollicitudin nisl. Aenean convallis augue eu vestibulum elementum. Integer non fermentum tellus. Donec sit amet ante molestie, iaculis ligula eu, sodales arcu. Duis id congue ex. Aenean aliquet ex id venenatis placerat.
+                </p>
+            </div>
+
             <div class="col-12 align-self-end text-center">
                 <button class="btn btn-outline-primary projectCard-HideButton" type="button">Collapse</button>
             </div>
-
+                
         </div>
-     </div>`;
+
+    </div>`;
 
         const tempCardHTML = document.createElement('div');
         tempCardHTML.className = "col-lg-6";
