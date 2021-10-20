@@ -10,6 +10,7 @@ const CARD_PREVIEW_BODY     = "projectCard-PreviewBody";
 const CARD_PREVIEW_TEXT     = "projectCard-PreviewText";
 const CARD_PREVIEW_BUTTON   = "projectCard-PreviewButton";
 const CARD_FULL_BODY        = "projectCard-FullBody";
+const CARD_FULL_TEXT        = "projectCard-FullText";
 const CARD_HIDE_BUTTON      = "projectCard-HideButton";
 
 const Logo = {"Unity":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Unity_Technologies_logo.svg/1280px-Unity_Technologies_logo.svg.png", 
@@ -17,7 +18,7 @@ const Logo = {"Unity":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/19
 "OpenGL":"link", 
 "JavaScript":"link"};
 
-const CARD_STATE = {"CLOSED": 0, "OPENED": 1, "HOVER": 2};
+const CARD_STATE = {"CLOSED": 0, "OPENED": 1, "HOVER": 2, "TRANSITION":3};
 
 class Card
 {
@@ -52,89 +53,137 @@ class Card
         return this.state;
     }
 
-    HoverEnter(cardHTHML)     
+    async HoverEnter(CardHTML)     
     {    
         this.state = CARD_STATE.HOVER;
 
-        const previewText   = cardHTHML.getElementsByClassName(CARD_PREVIEW_TEXT)[0];
-        const previewButton = cardHTHML.getElementsByClassName(CARD_PREVIEW_BUTTON)[0];
-        const previewImage  = cardHTHML.parentElement.getElementsByClassName(CARD_IMAGE)[0];
-
-        previewText.classList.remove("text-blur-out");
-        previewText.classList.add("text-focus-in");
-
-        previewButton.classList.remove("fade-out-top");
-        previewButton.classList.add("fade-in-bottom");
+        const previewText   = CardHTML.getElementsByClassName(CARD_PREVIEW_TEXT)[0];
+        const previewButton = CardHTML.getElementsByClassName(CARD_PREVIEW_BUTTON)[0];
+        const previewImage  = CardHTML.parentElement.getElementsByClassName(CARD_IMAGE)[0];
 
         previewImage.style.filter = "blur(3px)";
+
+        await Promise.all([
+            (async() => await Card.Transition(previewText, 'text-focus-in', 415, '1')) (),
+            (async() => await Card.Transition(previewButton, 'fade-in-bottom', 415, '1')) ()
+        ]);
     }
 
-    HoverExit(cardHTHML)     
+    async HoverExit(CardHTML)     
     {    
         this.state = CARD_STATE.CLOSED;
 
-        const previewText   = cardHTHML.getElementsByClassName(CARD_PREVIEW_TEXT)[0];
-        const previewButton = cardHTHML.getElementsByClassName(CARD_PREVIEW_BUTTON)[0];
-        const previewImage  = cardHTHML.parentElement.getElementsByClassName(CARD_IMAGE)[0];
+        const previewText   = CardHTML.getElementsByClassName(CARD_PREVIEW_TEXT)[0];
+        const previewButton = CardHTML.getElementsByClassName(CARD_PREVIEW_BUTTON)[0];
+        const previewImage  = CardHTML.parentElement.getElementsByClassName(CARD_IMAGE)[0];
 
-        previewText.classList.remove("text-focus-in");
-        previewText.classList.add("text-blur-out");
-
-        previewButton.classList.remove("fade-in-bottom");
-        previewButton.classList.add("fade-out-top");
-        
         previewImage.style.filter = "blur(0px)";
+
+        await Promise.all([
+            (async() => await Card.Transition(previewText, 'text-blur-out', 415, '0')) (),
+            (async() => await Card.Transition(previewButton, 'fade-out-top', 415, '0')) ()
+        ]);
     }
 
-    async Open(cardHTHML)      
+    async Open(CardHTML)      
     {   
-        const image       = cardHTHML.getElementsByClassName(CARD_IMAGE)[0];
-        const previewBody = cardHTHML.getElementsByClassName(CARD_PREVIEW_BODY)[0];
-        const fullBody    = cardHTHML.getElementsByClassName(CARD_FULL_BODY)[0];
+        this.state = CARD_STATE.OPENED;
 
+        const image       = CardHTML.getElementsByClassName(CARD_IMAGE)[0];
+        const previewBody = CardHTML.getElementsByClassName(CARD_PREVIEW_BODY)[0];
+
+        const fullBody    = CardHTML.getElementsByClassName(CARD_FULL_BODY)[0];
+        const fullText    = CardHTML.getElementsByClassName(CARD_FULL_TEXT)[0];
+        const hideButton  = CardHTML.getElementsByClassName(CARD_HIDE_BUTTON)[0];
+
+        const hideText   = Card.HideShowSingle(fullText, true, 250);
+        const hideBtn    = Card.HideShowSingle(hideButton, true, 250);
+        const reSize     = Card.DynmaicResize({ html:fullBody, size:'300px' }, { html:image, size:'100px', blurSize: 'blur(3px)' }, 250);
         
-        image.classList.remove("image-full");
-        image.classList.add("image-cut");
-
-        previewBody.classList.add("d-none");
-        fullBody.classList.remove("d-none");
-
-        this.state = await Card.DynmaicResize(fullBody, '300px', CARD_STATE.OPENED);
-        
+        await Card.HideAndShow(previewBody, fullBody, 0);
+        await Promise.all([
+            (async() => await hideText)(),
+            (async() => await hideBtn)(),
+            (async() => await reSize)()
+        ]);
     }
 
-    static DynmaicResize(bodyHTML, size, toState)
+    async Close(CardHTML)     
+    {    
+        this.state = CARD_STATE.TRANSITION;
+
+        const image       = CardHTML.getElementsByClassName(CARD_IMAGE)[0];
+        const previewBody = CardHTML.getElementsByClassName(CARD_PREVIEW_BODY)[0];
+        const previewText   = CardHTML.getElementsByClassName(CARD_PREVIEW_TEXT)[0];
+        const previewButton = CardHTML.getElementsByClassName(CARD_PREVIEW_BUTTON)[0];
+
+        const fullBody    = CardHTML.getElementsByClassName(CARD_FULL_BODY)[0];
+        const fullText    = CardHTML.getElementsByClassName(CARD_FULL_TEXT)[0];
+        const hideButton  = CardHTML.getElementsByClassName(CARD_HIDE_BUTTON)[0];
+        
+        const hideText   = Card.HideShowSingle(fullText, true, 250);
+        const hideBtn    = Card.HideShowSingle(hideButton, true, 250);
+        const reSize     = Card.DynmaicResize({ html:fullBody, size:'0px' }, { html:image, size:'300px', blurSize: 'blur(0px)' }, 250);
+
+        previewText.style.opacity = 0;
+        previewButton.style.opacity = 0;
+
+        await Promise.all([
+            (async() => await hideText)(),
+            (async() => await hideBtn)(),
+            (async() => await reSize)()
+        ]);
+        await Card.HideAndShow(fullBody, previewBody, 525);
+        
+        this.state = CARD_STATE.CLOSED;
+    }
+
+    static DynmaicResize(body, image, time)
     {
         return new Promise(resolve => {
             setTimeout(() => {
-                resolve(toState);
-                bodyHTML.style.height = size;
-            }, 250);
+                resolve();
+                body.html.style.height = body.size;
+
+                image.html.style.height = image.size;
+                image.html.style.filter = image.blurSize;
+            }, time);
         }); 
     }
 
-    async Close(cardHTHML)     
-    {    
-        const image       = cardHTHML.getElementsByClassName(CARD_IMAGE)[0];
-        const previewBody = cardHTHML.getElementsByClassName(CARD_PREVIEW_BODY)[0];
-        const fullBody    = cardHTHML.getElementsByClassName(CARD_FULL_BODY)[0];
-
-        let resultState = Card.DynmaicResize(fullBody, '0px', CARD_STATE.CLOSED);
-
-        image.style.filter = "blur(0px)";
-        image.classList.remove("image-cut");
-        image.classList.add("image-full");
-
-        this.state = await Card.HideAfter(fullBody, previewBody, 525, resultState);
-    }
-
-    static HideAfter(toHideHTML, toShowHTML, time, toState)
+    static HideShowSingle(elemenet, toHide, time)
     {
         return new Promise(resolve => {
             setTimeout(() => {
-                resolve(toState);
+                resolve();
+                if(toHide == true)
+                    elemenet.classList.remove("d-none");
+                else
+                    elemenet.classList.add("d-none");
+            }, time);
+        });
+    }
+
+    static HideAndShow(toHideHTML, toShowHTML, time)
+    {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve();
                 toHideHTML.classList.add("d-none");
                 toShowHTML.classList.remove("d-none");
+            }, time);
+        });
+    }
+
+    static Transition(targetDiv, toClass, time, opacity)
+    {
+        targetDiv.classList.add(toClass);
+
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve();
+                targetDiv.classList.remove(toClass);
+                targetDiv.style.opacity = opacity;
             }, time);
         });
     }
@@ -144,7 +193,7 @@ class Card
         const cardTemplate = `
     <div class="card text-white projectCard">
 
-        <img class="card-img projectCard-Image image-full" src="${Card.image}" alt="bgImage" style="filter: blur(0);">
+        <img class="card-img projectCard-Image" src="${Card.image}" alt="bgImage" style="filter: blur(0); height: 300px">
 
         <div class="card-img-overlay projectCard-OverlayZone">
         
@@ -161,13 +210,13 @@ class Card
 
             <div class="row w-100 g-0 projectCard-PreviewBody">
                 <div class="col-12 align-self-start">
-                    <p class="card-text projectCard-PreviewText lh-1 text-blur-out">
+                    <p class="card-text projectCard-PreviewText lh-1" style="opacity: 0;">
                         ${Card.previewText}
                     </p>
                 </div>
 
                 <div class="col-12 align-self-end text-center">
-                    <button class="btn btn-outline-primary projectCard-PreviewButton fade-out-top" type="button">Show More</button>
+                    <button class="btn btn-outline-primary projectCard-PreviewButton" type="button" style="opacity: 0;">Show More</button>
                 </div>
 
             </div>
@@ -177,15 +226,15 @@ class Card
         <div class="row w-100 g-0 projectCard-FullBody d-none" style="height: 0px;"> 
         
             <div class="col-12">
-                <p class="card-text lh-1">
+                <p class="card-text projectCard-FullText lh-1 d-none">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tristique, nisl quis pellentesque vulputate, dui ligula mattis nisi, nec ornare leo velit quis magna. Nullam sed pulvinar lectus, vel vulputate ligula. Phasellus ac convallis lorem, quis efficitur quam. Pellentesque commodo condimentum augue non pulvinar. Nulla tincidunt tincidunt neque, id gravida orci fringilla non. Vestibulum lorem diam, aliquet molestie tempor sed, fringilla nec eros. In gravida erat diam, sed tincidunt sapien varius a. Donec sodales risus sed diam molestie molestie. Nullam lobortis fermentum facilisis. Nullam at orci posuere, laoreet orci sed, mattis diam. Integer velit erat, varius ac est gravida, tempor sollicitudin nisl. Aenean convallis augue eu vestibulum elementum. Integer non fermentum tellus. Donec sit amet ante molestie, iaculis ligula eu, sodales arcu. Duis id congue ex. Aenean aliquet ex id venenatis placerat.
                 </p>
             </div>
 
             <div class="col-12 align-self-end text-center">
-                <button class="btn btn-outline-primary projectCard-HideButton" type="button">Collapse</button>
+                <button class="btn btn-outline-primary projectCard-HideButton d-none" type="button">Collapse</button>
             </div>
-                
+
         </div>
 
     </div>`;
@@ -248,8 +297,8 @@ class CardFactory
         const previewButton = cardHTML.getElementsByClassName(CARD_PREVIEW_BUTTON)[0];
         const hideButton    = cardHTML.getElementsByClassName(CARD_HIDE_BUTTON)[0];
 
-        overLay.addEventListener('mouseenter', this.#OnHover);
-        overLay.addEventListener('mouseleave', this.#OnHover);
+        overLay.addEventListener('mouseenter', this.#OnHoverEnter);
+        overLay.addEventListener('mouseleave', this.#OnHoverExit);
 
         previewButton.addEventListener('click', this.#OnPreview);
         hideButton.addEventListener('click', this.#OnHide);
@@ -276,15 +325,30 @@ class CardFactory
         console.log(`Card Count: ${this.projectCardCount} | Row Count: ${this.projectRowCount}`);
     }
 
-    static #OnHover(e)
+    static #OnHoverEnter(e)
     {
         const titleA = e.target.getElementsByClassName(CARD_TITLE)[0].innerHTML;
         const cardRef = CardFactory.projectCards.get(titleA);
 
+        const text = ["CLOSED", "OPENED", "HOVER", "TRANSITION"];
+        console.log(text[cardRef.GetState()]);
+
         if(cardRef.GetState() == CARD_STATE.CLOSED)
             cardRef.HoverEnter(e.target);
-        else if(cardRef.GetState() == CARD_STATE.HOVER)
+    }
+
+    static #OnHoverExit(e)
+    {
+        const titleA = e.target.getElementsByClassName(CARD_TITLE)[0].innerHTML;
+        const cardRef = CardFactory.projectCards.get(titleA);
+
+        const text = ["CLOSED", "OPENED", "HOVER", "TRANSITION"];
+        console.log(text[cardRef.GetState()]);
+
+        if(cardRef.GetState() == CARD_STATE.HOVER)
             cardRef.HoverExit(e.target);
+        else if (cardRef.GetState() == CARD_STATE.TRANSITION)
+            cardRef.state = CARD_STATE.CLOSED;
     }
 
     static #OnPreview(e)
@@ -317,19 +381,29 @@ else
 
 function Start()
 {
-    let testCard = new Card();
-
-    CardFactory.Add(testCard);
+    TestCards(TEST.SINGLE);
     CardFactory.LogCards();
 }
-    
 
-function TestArrayCards()
+const TEST = {"SINGLE":0, "MULTI":1};
+function TestCards(test)
 {
-    console.log("===== Card Array Test =====");
+    if(test == TEST.SINGLE)
+    {
+        console.log("===== Card Single Test =====");
 
-    let arrayCards = [new Card(), new Card(), new Card(), new Card()];
-    arrayCards[0].title = "Project A"; arrayCards[1].title = "Project B"; arrayCards[2].title = "Project C"; arrayCards[3].title = "Project D";
+        let testCard = new Card();
 
-    CardFactory.AddCollection(arrayCards);
+        CardFactory.Add(testCard);
+    }
+    else
+    {
+        console.log("===== Card Array Test =====");
+
+        let arrayCards = [new Card(), new Card(), new Card(), new Card()];
+        arrayCards[0].title = "Project A"; arrayCards[1].title = "Project B"; arrayCards[2].title = "Project C"; arrayCards[3].title = "Project D";
+    
+        CardFactory.AddCollection(arrayCards);
+    }
 }
+
