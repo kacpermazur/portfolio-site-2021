@@ -119,23 +119,24 @@ class Card
     static ToHTML(Card)
     {
         const cardTemplate = `
-    <div class="card text-white projectCard h-100">
+    <div class="card text-white projectCard">
 
         <img class="card-img projectCard-Image image-full" src="${Card.image}" alt="bgImage" style="filter: blur(0);">
 
         <div class="card-img-overlay projectCard-OverlayZone">
         
-            <div class="row w-100 g-0 projectCard-PreviewBody">
-
+            <div class="row w-100 g-0 projectCard-TitleBody">
                 <div class="col align-self-start">
                     <h4 class="card-title">${Card.title}</h4>
                     <h6 class="card-text projectCard-TagArea"></h6>
                 </div>
 
                 <div class="col-3 d-none d-sm-block">
-                    <img class="img-fluid float-end" style="height: 40px;" src="${Card.logo}" alt="ProjectLogo">
+                    <img class="img-fluid float-end" style="padding: 5px;" src="${Card.logo}" alt="ProjectLogo">
                 </div>
+            </div>
 
+            <div class="row w-100 g-0 projectCard-PreviewBody">
                 <div class="col-12 align-self-start">
                     <p class="card-text projectCard-PreviewText lh-1 text-blur-out">
                         ${Card.previewText}
