@@ -86,34 +86,57 @@ class Card
         previewImage.style.filter = "blur(0px)";
     }
 
-    Open(cardHTHML)      
-    {    
+    async Open(cardHTHML)      
+    {   
         const image       = cardHTHML.getElementsByClassName(CARD_IMAGE)[0];
         const previewBody = cardHTHML.getElementsByClassName(CARD_PREVIEW_BODY)[0];
         const fullBody    = cardHTHML.getElementsByClassName(CARD_FULL_BODY)[0];
 
+        
         image.classList.remove("image-full");
         image.classList.add("image-cut");
 
         previewBody.classList.add("d-none");
         fullBody.classList.remove("d-none");
 
-        this.state = CARD_STATE.OPENED;
+        this.state = await Card.DynmaicResize(fullBody, '300px', CARD_STATE.OPENED);
+        
     }
 
-    Close(cardHTHML)     
+    static DynmaicResize(bodyHTML, size, toState)
+    {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve(toState);
+                bodyHTML.style.height = size;
+            }, 250);
+        }); 
+    }
+
+    async Close(cardHTHML)     
     {    
         const image       = cardHTHML.getElementsByClassName(CARD_IMAGE)[0];
         const previewBody = cardHTHML.getElementsByClassName(CARD_PREVIEW_BODY)[0];
         const fullBody    = cardHTHML.getElementsByClassName(CARD_FULL_BODY)[0];
 
+        let resultState = Card.DynmaicResize(fullBody, '0px', CARD_STATE.CLOSED);
+
+        image.style.filter = "blur(0px)";
         image.classList.remove("image-cut");
         image.classList.add("image-full");
 
-        fullBody.classList.add("d-none");
-        previewBody.classList.remove("d-none");
-        
-        this.state = CARD_STATE.CLOSED;
+        this.state = await Card.HideAfter(fullBody, previewBody, 525, resultState);
+    }
+
+    static HideAfter(toHideHTML, toShowHTML, time, toState)
+    {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve(toState);
+                toHideHTML.classList.add("d-none");
+                toShowHTML.classList.remove("d-none");
+            }, time);
+        });
     }
 
     static ToHTML(Card)
@@ -151,7 +174,7 @@ class Card
 
         </div>
 
-        <div class="row w-100 g-0 d-none projectCard-FullBody"> 
+        <div class="row w-100 g-0 projectCard-FullBody d-none" style="height: 0px;"> 
         
             <div class="col-12">
                 <p class="card-text lh-1">
@@ -232,6 +255,27 @@ class CardFactory
         hideButton.addEventListener('click', this.#OnHide);
     }
 
+    static AddCollection(cards)
+    {
+        if(cards.length < 1)
+        {
+            console.log(`Collections of cards is empty unable to add!`);
+            return;
+        }
+
+        cards.forEach(card => this.Add(card));
+    }
+
+    static GetActiveCard()
+    {
+        return this.activeProjectCard;
+    }
+
+    static LogCards()
+    {
+        console.log(`Card Count: ${this.projectCardCount} | Row Count: ${this.projectRowCount}`);
+    }
+
     static #OnHover(e)
     {
         const titleA = e.target.getElementsByClassName(CARD_TITLE)[0].innerHTML;
@@ -260,16 +304,6 @@ class CardFactory
 
         cardRef.Close(cardHTML);
     }
-
-    static GetActiveCard()
-    {
-        return this.activeProjectCard;
-    }
-
-    static LogCards()
-    {
-        console.log(`Card Count: ${this.projectCardCount} | Row Count: ${this.projectRowCount}`);
-    }
 }
 
 if(document.readyState == 'loading')
@@ -283,10 +317,19 @@ else
 
 function Start()
 {
-    let cardA = new Card();
+    let testCard = new Card();
 
-    CardFactory.Add(cardA);
+    CardFactory.Add(testCard);
     CardFactory.LogCards();
 }
     
 
+function TestArrayCards()
+{
+    console.log("===== Card Array Test =====");
+
+    let arrayCards = [new Card(), new Card(), new Card(), new Card()];
+    arrayCards[0].title = "Project A"; arrayCards[1].title = "Project B"; arrayCards[2].title = "Project C"; arrayCards[3].title = "Project D";
+
+    CardFactory.AddCollection(arrayCards);
+}

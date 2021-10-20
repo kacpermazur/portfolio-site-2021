@@ -1,3 +1,4 @@
+
 .projectCard
 {
     background-color: unset !important;
@@ -21,6 +22,7 @@
 {
     transition: height 0.5s ease;
     height: 100px;
+    filter: blur(3px) !important;
 }
 
 .projectCard-Tag
@@ -49,6 +51,7 @@
     padding: 1rem;
     color: black;
     box-shadow: 10px 10px 15px -15px rgb(29 28 13 / 63%);
+    transition: height 0.5s ease;
 }
 
 @media (max-width: 575.98px) { 
