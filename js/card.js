@@ -402,13 +402,15 @@ else
 
 function Start()
 {
-    TestCards(TEST.MULTI);
+    TestCards(TEST.SINGLE);
     CardFactory.LogCards();
 }
 
-const TEST = {"SINGLE":0, "MULTI":1};
+const TEST = {"NONE":-1, "SINGLE":0, "MULTI":1};
 function TestCards(test)
 {
+    if(test == TEST.NONE) return;
+
     if(test == TEST.SINGLE)
     {
         console.log("===== Card Single Test =====");
