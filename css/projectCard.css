@@ -1,0 +1,78 @@
+.projectCard
+{
+    background-color: unset !important;
+    
+}
+
+.projectCard-Image
+{
+    transition: 0.3s all;
+    transition: height 0.5s ease;
+    
+    object-fit: cover; 
+    object-position: 50% 50%;
+}
+
+.image-full
+{
+    transition: height 0.5s ease;
+    height: 300px;
+}
+
+.image-cut
+{
+    transition: height 0.5s ease;
+    height: 100px;
+    filter: blur(3px) !important;
+}
+
+.projectCard-Tag
+{
+    margin-left: 1%;
+}
+
+.card-title
+{
+    display: inline-flex;
+}
+
+.projectCard-TagArea
+{
+    display: inline-flex;
+}
+
+.projectCard-PreviewBody
+{
+    height: 75%;
+}
+
+.projectCard-FullBody
+{
+    position: relative;
+    padding: 1rem;
+    color: black;
+    box-shadow: 10px 10px 15px -15px rgb(29 28 13 / 63%);
+    transition: height 0.5s ease;
+}
+
+.projectCard-LinkButton
+{
+    margin-left: 1%;
+}
+
+@media (max-width: 575.98px) { 
+    .projectCard-PreviewText
+    {
+        font-size: 95%;
+    }
+
+    .projectCard-PreviewButton
+    {
+        font-size: 95%;
+    }
+
+    .projectCard-Tag
+    {
+        font-size: 60%;
+    }
+ }
