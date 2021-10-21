@@ -4,13 +4,14 @@ const CARD                  = "projectCard";
 const CARD_TITLE            = "card-title";
 const CARD_OVERLAY          = "projectCard-OverlayZone";
 const CARD_IMAGE            = "projectCard-Image";
-const CARD_TAGAREA          = "projectCard-TagArea";
+const CARD_TAG_AREA         = "projectCard-TagArea";
 const CARD_TAG              = "projectCard-Tag"
 const CARD_PREVIEW_BODY     = "projectCard-PreviewBody";
 const CARD_PREVIEW_TEXT     = "projectCard-PreviewText";
 const CARD_PREVIEW_BUTTON   = "projectCard-PreviewButton";
 const CARD_FULL_BODY        = "projectCard-FullBody";
 const CARD_FULL_TEXT        = "projectCard-FullText";
+const CARD_BUTTON_AREA      = "projectCard-ButtonArea";
 const CARD_HIDE_BUTTON      = "projectCard-HideButton";
 
 const Logo = {"Unity":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Unity_Technologies_logo.svg/1280px-Unity_Technologies_logo.svg.png", 
@@ -30,8 +31,12 @@ class Card
         this.tags = ["Tag", "Tag"];
         this.logo = Logo.Unity;
         this.previewText = "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.";
-        this.fullText = "lol it works yay";
-        this.linkButtons = ["link", "link"];
+        this.fullText = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tristique, nisl quis pellentesque vulputate, 
+                        dui ligula mattis nisi, nec ornare leo velit quis magna. Nullam sed pulvinar lectus, vel vulputate ligula. 
+                        Phasellus ac convallis lorem, quis efficitur quam. Pellentesque commodo condimentum augue non pulvinar. 
+                        Nulla tincidunt tincidunt neque, id gravida orci fringilla non. Vestibulum lorem diam, aliquet molestie 
+                        tempor sed, fringilla nec eros. In gravida erat diam, sed tincidunt sapien varius a. Donec sodales risus sed.`;
+        this.linkButtons = [{"Name":"GitHub", "Link":"#"},{"Name":"YouTube", "Link":"#"}];
         
         this.state = CARD_STATE.CLOSED;
     }
@@ -45,7 +50,7 @@ class Card
         this.logo = logo;
         this.previewText = previewText;
         this.fullText = fullText;
-        this.linkButtons = linkButtons // Need
+        this.linkButtons = linkButtons
     }
 
     GetState()  
@@ -96,7 +101,7 @@ class Card
         const fullText    = CardHTML.getElementsByClassName(CARD_FULL_TEXT)[0];
         const hideButton  = CardHTML.getElementsByClassName(CARD_HIDE_BUTTON)[0];
 
-        const hideText   = Card.HideShowSingle(fullText, true, 250);
+        const hideText   = Card.HideShowSingle(fullText, true, 300);
         const hideBtn    = Card.HideShowSingle(hideButton, true, 250);
         const reSize     = Card.DynmaicResize({ html:fullBody, size:'300px' }, { html:image, size:'100px', blurSize: 'blur(3px)' }, 250);
         
@@ -112,8 +117,8 @@ class Card
     {    
         this.state = CARD_STATE.TRANSITION;
 
-        const image       = CardHTML.getElementsByClassName(CARD_IMAGE)[0];
-        const previewBody = CardHTML.getElementsByClassName(CARD_PREVIEW_BODY)[0];
+        const image         = CardHTML.getElementsByClassName(CARD_IMAGE)[0];
+        const previewBody   = CardHTML.getElementsByClassName(CARD_PREVIEW_BODY)[0];
         const previewText   = CardHTML.getElementsByClassName(CARD_PREVIEW_TEXT)[0];
         const previewButton = CardHTML.getElementsByClassName(CARD_PREVIEW_BUTTON)[0];
 
@@ -121,7 +126,7 @@ class Card
         const fullText    = CardHTML.getElementsByClassName(CARD_FULL_TEXT)[0];
         const hideButton  = CardHTML.getElementsByClassName(CARD_HIDE_BUTTON)[0];
         
-        const hideText   = Card.HideShowSingle(fullText, true, 250);
+        const hideText   = Card.HideShowSingle(fullText, true, 100);
         const hideBtn    = Card.HideShowSingle(hideButton, true, 250);
         const reSize     = Card.DynmaicResize({ html:fullBody, size:'0px' }, { html:image, size:'300px', blurSize: 'blur(0px)' }, 250);
 
@@ -226,29 +231,29 @@ class Card
         <div class="row w-100 g-0 projectCard-FullBody d-none" style="height: 0px;"> 
         
             <div class="col-12">
-                <p class="card-text projectCard-FullText lh-1 d-none">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tristique, nisl quis pellentesque vulputate, dui ligula mattis nisi, nec ornare leo velit quis magna. Nullam sed pulvinar lectus, vel vulputate ligula. Phasellus ac convallis lorem, quis efficitur quam. Pellentesque commodo condimentum augue non pulvinar. Nulla tincidunt tincidunt neque, id gravida orci fringilla non. Vestibulum lorem diam, aliquet molestie tempor sed, fringilla nec eros. In gravida erat diam, sed tincidunt sapien varius a. Donec sodales risus sed diam molestie molestie. Nullam lobortis fermentum facilisis. Nullam at orci posuere, laoreet orci sed, mattis diam. Integer velit erat, varius ac est gravida, tempor sollicitudin nisl. Aenean convallis augue eu vestibulum elementum. Integer non fermentum tellus. Donec sit amet ante molestie, iaculis ligula eu, sodales arcu. Duis id congue ex. Aenean aliquet ex id venenatis placerat.
-                </p>
+                <p class="card-text projectCard-FullText lh-1 d-none"></p>
             </div>
 
-            <div class="col-12 align-self-end text-center">
-                <button class="btn btn-outline-primary projectCard-HideButton d-none" type="button">Collapse</button>
+            <div class="col-12 align-self-end text-center projectCard-ButtonArea">
+                <button class="btn btn-outline-primary projectCard-HideButton float-end d-none" type="button">Close</button>
             </div>
 
         </div>
-
     </div>`;
 
         const tempCardHTML = document.createElement('div');
         tempCardHTML.className = "col-lg-6";
         tempCardHTML.innerHTML = cardTemplate;
 
-        const tagArea = tempCardHTML.getElementsByClassName(CARD_TAGAREA)[0];
+        const tagArea = tempCardHTML.getElementsByClassName(CARD_TAG_AREA)[0];
         tagArea.innerHTML += `<span class="badge projectCard-Tag bg-dark" style="background-color: ${Card.mainTag.color} !important;">${Card.mainTag.name}</span>`;
         Card.tags.forEach(tag => { tagArea.innerHTML += `<span class="badge projectCard-Tag bg-secondary">${tag}</span>`; });
 
-        if(Card.linkButtons != null)
-            console.log(`This ${Card.title} Card Has LinkButtons!`);
+        const fullText = tempCardHTML.getElementsByClassName(CARD_FULL_TEXT)[0];
+        fullText.innerHTML = Card.fullText;
+
+        const buttonArea = tempCardHTML.getElementsByClassName(CARD_BUTTON_AREA)[0];
+        Card.linkButtons.forEach(site => { buttonArea.innerHTML += `<a class="btn btn-outline-info projectCard-LinkButton float-start" href="${site.Link}" role="button">${site.Name}</a>`; });
 
         return tempCardHTML;
     }

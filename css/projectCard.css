@@ -43,7 +43,7 @@
 
 .projectCard-PreviewBody
 {
-    height: 70%;
+    height: 75%;
 }
 
 .projectCard-FullBody
@@ -53,6 +53,11 @@
     color: black;
     box-shadow: 10px 10px 15px -15px rgb(29 28 13 / 63%);
     transition: height 0.5s ease;
+}
+
+.projectCard-LinkButton
+{
+    margin-left: 1%;
 }
 
 @media (max-width: 575.98px) { 
