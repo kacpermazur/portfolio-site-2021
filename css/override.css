@@ -169,6 +169,12 @@ body,html
     margin-bottom: 5%;
 }
 
+.sub-info
+{
+    margin-left: 15%; 
+}
+
+
 /* -- MEDIA OVERRIDES -- */
 @media (min-width: 1500px) 
 { 
@@ -275,9 +281,19 @@ body,html
 {
     .projectTitle
     {
-        text-align: left;
-        margin-right: 0;
-        margin-left: 20%;
+        text-align: center;
+        margin-right: unset;
+        margin-left: unset;
+    }
+
+    .contact-title
+    {
+        margin-bottom: 15%;
+    }
+
+    .sub-info
+    {
+        margin-left: 0; 
     }
 
     .project-col

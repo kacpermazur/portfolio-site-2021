@@ -12,6 +12,7 @@ const CARD_PREVIEW_BUTTON   = "projectCard-PreviewButton";
 const CARD_FULL_BODY        = "projectCard-FullBody";
 const CARD_FULL_TEXT        = "projectCard-FullText";
 const CARD_BUTTON_AREA      = "projectCard-ButtonArea";
+const CARD_LINK_BUTTON      = "projectCard-LinkButton";
 const CARD_HIDE_BUTTON      = "projectCard-HideButton";
 
 const Logo = {  "Unity":"https://upload.wikimedia.org/wikipedia/commons/c/c4/Unity_2021.svg", 
@@ -102,14 +103,16 @@ class Card
         const fullText    = CardHTML.getElementsByClassName(CARD_FULL_TEXT)[0];
         const hideButton  = CardHTML.getElementsByClassName(CARD_HIDE_BUTTON)[0];
 
-        const hideText   = Card.HideShowSingle(fullText, true, 300);
-        const hideBtn    = Card.HideShowSingle(hideButton, true, 250);
+        const hideText   = Card.HideShowSingle(fullText, true, 400);
+        const hideBtn    = Card.HideShowSingle(hideButton, true, 400);
+        const hideLinks  = Card.HideShowCollection(CardHTML.getElementsByClassName(CARD_LINK_BUTTON), true, 400);
         const reSize     = Card.DynmaicResize({ html:fullBody, size:'300px' }, { html:image, size:'100px', blurSize: 'blur(3px)' }, 250);
         
         await Card.HideAndShow(previewBody, fullBody, 0);
         await Promise.all([
             (async() => await hideText)(),
             (async() => await hideBtn)(),
+            (async() => await hideLinks)(),
             (async() => await reSize)()
         ]);
     }
@@ -127,8 +130,9 @@ class Card
         const fullText    = CardHTML.getElementsByClassName(CARD_FULL_TEXT)[0];
         const hideButton  = CardHTML.getElementsByClassName(CARD_HIDE_BUTTON)[0];
         
-        const hideText   = Card.HideShowSingle(fullText, true, 100);
-        const hideBtn    = Card.HideShowSingle(hideButton, true, 250);
+        const hideText   = Card.HideShowSingle(fullText, false, 200);
+        const hideBtn    = Card.HideShowSingle(hideButton, false, 200);
+        const hideLinks  = Card.HideShowCollection(CardHTML.getElementsByClassName(CARD_LINK_BUTTON), false, 200);
         const reSize     = Card.DynmaicResize({ html:fullBody, size:'0px' }, { html:image, size:'300px', blurSize: 'blur(0px)' }, 250);
 
         previewText.style.opacity = 0;
@@ -137,6 +141,7 @@ class Card
         await Promise.all([
             (async() => await hideText)(),
             (async() => await hideBtn)(),
+            (async() => await hideLinks)(),
             (async() => await reSize)()
         ]);
         await Card.HideAndShow(fullBody, previewBody, 525);
@@ -157,12 +162,27 @@ class Card
         }); 
     }
 
-    static HideShowSingle(elemenet, toHide, time)
+    static HideShowCollection(elements, toShow, time)
     {
         return new Promise(resolve => {
             setTimeout(() => {
                 resolve();
-                if(toHide == true)
+                if(toShow == true)
+                    [].forEach.call(elements, elemenet => elemenet.classList.remove("d-none"));
+                    //elementArray.forEach(elemenet => elemenet.classList.remove("d-none"));
+                else
+                    [].forEach.call(elements, elemenet => elemenet.classList.add("d-none"));
+                    //elementArray.forEach(elemenet => elemenet.classList.add("d-none"));
+            }, time);
+        });
+    }
+
+    static HideShowSingle(elemenet, toShow, time)
+    {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve();
+                if(toShow == true)
                     elemenet.classList.remove("d-none");
                 else
                     elemenet.classList.add("d-none");
@@ -209,8 +229,8 @@ class Card
                     <h6 class="card-text projectCard-TagArea"></h6>
                 </div>
 
-                <div class="col-3 d-none d-sm-block">
-                    <img class="img-fluid float-end" style="padding: 5px; height: 55px;" src="${Card.logo}" alt="ProjectLogo">
+                <div class="col-3">
+                    <img class="img-fluid float-end" style="height: 55px;" src="${Card.logo}" alt="ProjectLogo">
                 </div>
             </div>
 
@@ -254,7 +274,7 @@ class Card
         fullText.innerHTML = Card.fullText;
 
         const buttonArea = tempCardHTML.getElementsByClassName(CARD_BUTTON_AREA)[0];
-        Card.linkButtons.forEach(site => { buttonArea.innerHTML += `<a class="btn btn-outline-info projectCard-LinkButton float-start" href="${site.Link}" role="button">${site.Name}</a>`; });
+        Card.linkButtons.forEach(site => { buttonArea.innerHTML += `<a class="btn btn-outline-info projectCard-LinkButton float-start d-none" href="${site.Link}" role="button">${site.Name}</a>`; });
 
         return tempCardHTML;
     }
@@ -281,6 +301,7 @@ class CardFactory
         {
             const nRow = document.createElement('div');
             nRow.className = ROW;
+            nRow.style.marginTop = '2%';
             projectCardArea.appendChild(nRow);
             this.projectRowCount++;
         }
@@ -336,9 +357,6 @@ class CardFactory
         const titleA = e.target.getElementsByClassName(CARD_TITLE)[0].innerHTML;
         const cardRef = CardFactory.projectCards.get(titleA);
 
-        const text = ["CLOSED", "OPENED", "HOVER", "TRANSITION"];
-        console.log(text[cardRef.GetState()]);
-
         if(cardRef.GetState() == CARD_STATE.CLOSED)
             cardRef.HoverEnter(e.target);
     }
@@ -347,9 +365,6 @@ class CardFactory
     {
         const titleA = e.target.getElementsByClassName(CARD_TITLE)[0].innerHTML;
         const cardRef = CardFactory.projectCards.get(titleA);
-
-        const text = ["CLOSED", "OPENED", "HOVER", "TRANSITION"];
-        console.log(text[cardRef.GetState()]);
 
         if(cardRef.GetState() == CARD_STATE.HOVER)
             cardRef.HoverExit(e.target);
@@ -387,7 +402,7 @@ else
 
 function Start()
 {
-    //TestCards(TEST.SINGLE);
+    TestCards(TEST.MULTI);
     CardFactory.LogCards();
 }
 
