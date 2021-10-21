@@ -1,7 +1,12 @@
 .projectCard
 {
     background-color: unset !important;
-    
+}
+
+.pojectCard-Title
+{
+    display: inline-flex;
+    color: white !important;
 }
 
 .projectCard-Image
@@ -11,6 +16,22 @@
     
     object-fit: cover; 
     object-position: 50% 50%;
+}
+
+.projectCard-techLogo
+{
+    height: 80px;
+}
+
+.projectCard-PreviewButton
+{
+    margin: 20px 0;
+}
+
+.projectCard-PreviewText
+{
+    padding-top: 2%;
+    color: white !important;
 }
 
 .image-full
@@ -33,6 +54,7 @@
 
 .card-title
 {
+    font-weight: bold;
     display: inline-flex;
 }
 
@@ -76,8 +98,42 @@
         font-size: 60%;
     }
 
+    .projectCard-techLogo
+    {
+        height: auto;
+    }
+
     .projectCard-FullText
     {
         font-size: 90%;
+    }
+
+    .projectCard-LinkButton
+    {
+        font-size: 80%;
+    }
+ }
+
+ /* iphone 6 size */
+ @media (max-width: 375.98px) { 
+    .projectCard-PreviewText
+    {
+        padding-top: 5%;
+        font-size: 95%;
+    }
+
+    .projectCard-Tag
+    {
+        font-size: 65%;
+    }
+
+    .projectCard-techLogo
+    {
+        display: none;
+    }
+
+    .projectCard-HideButton
+    {
+        margin-top: 10%;
     }
  }

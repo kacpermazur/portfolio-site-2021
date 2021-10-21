@@ -15,15 +15,35 @@ body,html
     background: #e3eb00;
 }
 
+.navbar-light .navbar-nav .nav-link, .nav-title, .navbar-toggler-icon
+{
+    color: #1d1c0d;
+}
+
+.contactTitle 
+{
+    font-weight: bold;
+}
+
 .headerLinks
 {
     margin-left: 35%;
-    margin-right: 40%;
+    margin-right: 30%;
 }
 
 .blueIntro
 {
-    background: #00acaf;
+    background: #00acaf; 
+}
+
+.card-title, .projectTitle, .contactTitle
+{
+    color: #1d1c0d !important;
+}
+
+.card-text, .sub-info 
+{
+    color: #494738 !important;
 }
 
 .introCard
@@ -144,7 +164,8 @@ body,html
 .projectTitle
 {
     text-align: right;
-    margin-right: 15%;
+    margin-right: 25%;
+    font-weight: bold;
 }
 
 .contactTitle
@@ -222,6 +243,11 @@ body,html
     {
         margin-top: -185px;
         margin-left: 0;
+    }
+
+    .projectTitle
+    {
+        margin-right: 15%;
     }
 
     .spaceShip

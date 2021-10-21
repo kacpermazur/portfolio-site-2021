@@ -17,9 +17,9 @@ const CARD_HIDE_BUTTON      = "projectCard-HideButton";
 
 const Logo = {  "Unity":"https://upload.wikimedia.org/wikipedia/commons/c/c4/Unity_2021.svg", 
                 "Unreal":"https://upload.wikimedia.org/wikipedia/commons/d/da/Unreal_Engine_Logo.svg", 
-                "OpenGL":"https://upload.wikimedia.org/wikipedia/commons/e/e9/Opengl-logo.svg", 
+                "OpenGL":"content/openGL.png", 
                 "JavaScript":"https://upload.wikimedia.org/wikipedia/commons/b/b6/Badge_js-strict.svg",
-                "Csharp":"https://upload.wikimedia.org/wikipedia/commons/0/0d/C_Sharp_wordmark.svg"};
+                "Csharp":"content/csharp.png"};
 
 const CARD_STATE = {"CLOSED": 0, "OPENED": 1, "HOVER": 2, "TRANSITION":3};
 
@@ -68,7 +68,8 @@ class Card
         const previewButton = CardHTML.getElementsByClassName(CARD_PREVIEW_BUTTON)[0];
         const previewImage  = CardHTML.parentElement.getElementsByClassName(CARD_IMAGE)[0];
 
-        previewImage.style.filter = "blur(3px)";
+        previewImage.style.filter = "blur(3px) brightness(50%)";
+        //previewImage.style.filter = "";
 
         await Promise.all([
             (async() => await Card.Transition(previewText, 'text-focus-in', 415, '1')) (),
@@ -84,7 +85,7 @@ class Card
         const previewButton = CardHTML.getElementsByClassName(CARD_PREVIEW_BUTTON)[0];
         const previewImage  = CardHTML.parentElement.getElementsByClassName(CARD_IMAGE)[0];
 
-        previewImage.style.filter = "blur(0px)";
+        previewImage.style.filter = "blur(0px) brightness(100%)";
 
         await Promise.all([
             (async() => await Card.Transition(previewText, 'text-blur-out', 415, '0')) (),
@@ -106,7 +107,7 @@ class Card
         const hideText   = Card.HideShowSingle(fullText, true, 400);
         const hideBtn    = Card.HideShowSingle(hideButton, true, 400);
         const hideLinks  = Card.HideShowCollection(CardHTML.getElementsByClassName(CARD_LINK_BUTTON), true, 400);
-        const reSize     = Card.DynmaicResize({ html:fullBody, size:'300px' }, { html:image, size:'100px', blurSize: 'blur(3px)' }, 250);
+        const reSize     = Card.DynmaicResize({ html:fullBody, size:'300px' }, { html:image, size:'100px', blurSize: 'blur(3px) brightness(50%)' }, 250);
         
         await Card.HideAndShow(previewBody, fullBody, 0);
         await Promise.all([
@@ -133,7 +134,7 @@ class Card
         const hideText   = Card.HideShowSingle(fullText, false, 200);
         const hideBtn    = Card.HideShowSingle(hideButton, false, 200);
         const hideLinks  = Card.HideShowCollection(CardHTML.getElementsByClassName(CARD_LINK_BUTTON), false, 200);
-        const reSize     = Card.DynmaicResize({ html:fullBody, size:'0px' }, { html:image, size:'300px', blurSize: 'blur(0px)' }, 250);
+        const reSize     = Card.DynmaicResize({ html:fullBody, size:'0px' }, { html:image, size:'300px', blurSize: 'blur(0px) brightness(100%)' }, 250);
 
         previewText.style.opacity = 0;
         previewButton.style.opacity = 0;
@@ -225,12 +226,12 @@ class Card
         
             <div class="row w-100 g-0 projectCard-TitleBody">
                 <div class="col align-self-start">
-                    <h4 class="card-title">${Card.title}</h4>
+                    <h4 class="card-title pojectCard-Title" style="font-weight: 600">${Card.title}</h4>
                     <h6 class="card-text projectCard-TagArea"></h6>
                 </div>
 
                 <div class="col-3">
-                    <img class="img-fluid float-end" style="height: 55px;" src="${Card.logo}" alt="ProjectLogo">
+                    <img class="img-fluid projectCard-techLogo float-end" style="filter: brightness(0) invert(1);" src="${Card.logo}" alt="ProjectLogo">
                 </div>
             </div>
 
@@ -417,7 +418,13 @@ function TestCards(test)
 
         let testCard = new Card();
 
-        CardFactory.Add(testCard);
+        let comsicCard = new Card(); comsicCard.SetData("Comsic Frontline AR", "/content/projects/unityHofliCosmic.gif", {name:"Hofli", color:"#fa2742"}, ["Tools", "Game Systems", "Moblie", "AR"], Logo.Unity,
+                                        "Developed for Andrioid & iOS, Cosmic Frontline is visually stunning AR strategy game with responsive AI and selections of challenges.",
+                                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tristique, nisl quis pellentesque vulputate, dui ligula mattis nisi, nec ornare leo velit quis magna. Nullam sed pulvinar lectus, vel vulputate ligula. Phasellus ac convallis lorem, quis efficitur quam. Pellentesque commodo condimentum augue non pulvinar.",
+                                        [{"Name":"Site", "Link":"https://hofli.com/cosmic-frontline/"}, {"Name":"YouTube", "Link":"https://www.youtube.com/watch?v=21z3zoPaShs"}, 
+                                         {"Name":"AppStore", "Link":"https://apps.apple.com/app/cosmic-frontline-ar/id1441521950"}, {"Name":"PlayStore", "Link":"https://play.google.com/store/apps/details?id=com.hofli.cosmicfrontline"}]);
+
+        CardFactory.Add(comsicCard);
     }
     else
     {
@@ -430,3 +437,11 @@ function TestCards(test)
     }
 }
 
+function StaticCreateCards()
+{
+    let comsicCard = new Card().SetData("Comsic Frontline AR", "/content/projects/unityHofliCosmic.gif", {name:"Hofli", color:"#fa2742"}, ["Tools", "Game Systems", "Moblie", "AR"], Logo.Unity,
+                                        "Developed for Andrioid & iOS, Cosmic Frontline is visually stunning AR strategy game with responsive AI and selections of challenges.",
+                                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tristique, nisl quis pellentesque vulputate, dui ligula mattis nisi, nec ornare leo velit quis magna. Nullam sed pulvinar lectus, vel vulputate ligula. Phasellus ac convallis lorem, quis efficitur quam. Pellentesque commodo condimentum augue non pulvinar.",
+                                        [{"Name":"Site", "Link":"https://hofli.com/cosmic-frontline/"}, {"Name":"YouTube", "Link":"https://www.youtube.com/watch?v=21z3zoPaShs"}, 
+                                         {"Name":"AppStore", "Link":"https://apps.apple.com/app/cosmic-frontline-ar/id1441521950"}, {"Name":"PlayStore", "Link":"https://play.google.com/store/apps/details?id=com.hofli.cosmicfrontline"}]);
+}
