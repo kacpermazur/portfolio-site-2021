@@ -14,10 +14,11 @@ const CARD_FULL_TEXT        = "projectCard-FullText";
 const CARD_BUTTON_AREA      = "projectCard-ButtonArea";
 const CARD_HIDE_BUTTON      = "projectCard-HideButton";
 
-const Logo = {"Unity":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Unity_Technologies_logo.svg/1280px-Unity_Technologies_logo.svg.png", 
-"Unreal":"link", 
-"OpenGL":"link", 
-"JavaScript":"link"};
+const Logo = {  "Unity":"https://upload.wikimedia.org/wikipedia/commons/c/c4/Unity_2021.svg", 
+                "Unreal":"https://upload.wikimedia.org/wikipedia/commons/d/da/Unreal_Engine_Logo.svg", 
+                "OpenGL":"https://upload.wikimedia.org/wikipedia/commons/e/e9/Opengl-logo.svg", 
+                "JavaScript":"https://upload.wikimedia.org/wikipedia/commons/b/b6/Badge_js-strict.svg",
+                "Csharp":"https://upload.wikimedia.org/wikipedia/commons/0/0d/C_Sharp_wordmark.svg"};
 
 const CARD_STATE = {"CLOSED": 0, "OPENED": 1, "HOVER": 2, "TRANSITION":3};
 
@@ -209,7 +210,7 @@ class Card
                 </div>
 
                 <div class="col-3 d-none d-sm-block">
-                    <img class="img-fluid float-end" style="padding: 5px;" src="${Card.logo}" alt="ProjectLogo">
+                    <img class="img-fluid float-end" style="padding: 5px; height: 55px;" src="${Card.logo}" alt="ProjectLogo">
                 </div>
             </div>
 
@@ -386,7 +387,7 @@ else
 
 function Start()
 {
-    TestCards(TEST.SINGLE);
+    //TestCards(TEST.SINGLE);
     CardFactory.LogCards();
 }
 
