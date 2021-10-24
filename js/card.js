@@ -450,7 +450,7 @@ function TestCards(test)
 const StaticTextJSON  = `[
         {
            "title":"Comsic Frontline AR",
-           "image":"/content/projects/unityHofliCosmic.gif",
+           "image":"content/projects/unityHofliCosmic.gif",
            "mainTag":{
               "name":"Hofli",
               "color":"#fa2742"
@@ -486,7 +486,7 @@ const StaticTextJSON  = `[
         },
         {
            "title":"Guild Builder",
-           "image":"/content/projects/unityQQGuildBuilder.png",
+           "image":"content/projects/unityQQGuildBuilder.png",
            "mainTag":{
               "name":"QQ",
               "color":"#e61d33"
@@ -511,7 +511,7 @@ const StaticTextJSON  = `[
         },
         {
            "title":"House Of Mistwalker",
-           "image":"/content/projects/unrealMist.png",
+           "image":"content/projects/unrealMist.png",
            "mainTag":{
               "name":"NDA",
               "color":"#7f0ea1"
@@ -530,7 +530,7 @@ const StaticTextJSON  = `[
         },
         {
            "title":"Synthetic Dungeon",
-           "image":"/content/projects/unitySynthDungeon.gif",
+           "image":"content/projects/unitySynthDungeon.gif",
            "mainTag":{
               "name":"University",
               "color":"#d9a41c"
@@ -553,7 +553,7 @@ const StaticTextJSON  = `[
         },
         {
            "title":"G-Well",
-           "image":"/content/projects/unityGravity.gif",
+           "image":"content/projects/unityGravity.gif",
            "mainTag":{
               "name":"University",
               "color":"#d9a41c"
@@ -576,7 +576,7 @@ const StaticTextJSON  = `[
         },
         {
            "title":"Push n Bash",
-           "image":"/content/projects/unityParty.png",
+           "image":"content/projects/unityParty.png",
            "mainTag":{
               "name":"University",
               "color":"#d9a41c"
@@ -600,7 +600,7 @@ const StaticTextJSON  = `[
         },
         {
            "title":"Mini Dungeon Slayer",
-           "image":"/content/projects/unityTDShooter.gif",
+           "image":"content/projects/unityTDShooter.gif",
            "mainTag":{
               "name":"University",
               "color":"#d9a41c"
@@ -623,7 +623,7 @@ const StaticTextJSON  = `[
         },
         {
            "title":"OpenGL Model Loader",
-           "image":"/content/projects/cppModelLoader.png",
+           "image":"content/projects/cppModelLoader.png",
            "mainTag":{
               "name":"University",
               "color":"#d9a41c"
@@ -647,7 +647,7 @@ const StaticTextJSON  = `[
         },
         {
            "title":"OpenGL Physics",
-           "image":"/content/projects/cppPhysics.gif",
+           "image":"content/projects/cppPhysics.gif",
            "mainTag":{
               "name":"University",
               "color":"#d9a41c"
@@ -671,7 +671,7 @@ const StaticTextJSON  = `[
         },
         {
            "title":"Ants",
-           "image":"/content/projects/csharpAnts.gif",
+           "image":"content/projects/csharpAnts.gif",
            "mainTag":{
               "name":"University",
               "color":"#d9a41c"
