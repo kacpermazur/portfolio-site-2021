@@ -305,7 +305,6 @@ class CardFactory
         {
             const nRow = document.createElement('div');
             nRow.className = ROW;
-            nRow.style.marginTop = '2%';
             projectCardArea.appendChild(nRow);
             this.projectRowCount++;
         }
@@ -464,7 +463,7 @@ const StaticTextJSON  = `[
            ],
            "logo":"https://upload.wikimedia.org/wikipedia/commons/c/c4/Unity_2021.svg",
            "previewText":"Developed for Andrioid & iOS, Cosmic Frontline is visually stunning AR strategy game with responsive AI and selections of challenges.",
-           "fullText":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tristique, nisl quis pellentesque vulputate, dui ligula mattis nisi, nec ornare leo velit quis magna. Nullam sed pulvinar lectus, vel vulputate ligula. Phasellus ac convallis lorem, quis efficitur quam. Pellentesque commodo condimentum augue non pulvinar.",
+           "fullText":"During this project I have maintained existing tools to work with updated AR foundation SDK to function in the existing development pipeline. Integrated designer friendly internal editor tools based on proposed design specs. Added platform specific improvements to existing and new tool chains to improve better performance on specific platforms.",
            "linkButtons":[
               {
                  "Name":"Site",
@@ -501,7 +500,7 @@ const StaticTextJSON  = `[
            ],
            "logo":"https://upload.wikimedia.org/wikipedia/commons/c/c4/Unity_2021.svg",
            "previewText":"A 2D slice-of-life RPG set in an endearing fantasy world...",
-           "fullText":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tristique, nisl quis pellentesque vulputate, dui ligula mattis nisi, nec ornare leo velit quis magna. Nullam sed pulvinar lectus, vel vulputate ligula. Phasellus ac convallis lorem, quis efficitur quam. Pellentesque commodo condimentum augue non pulvinar.",
+           "fullText":"Implemented a new missing system in an existing large code base. Developed visual based node editor tool that integrates existing game systems into one place while focusing on game designers' usability to reduce complexity when creating new game logic such as npc’s behaviours, game events and interactions. Utilized node editor to work alongside internal job systems to optimize complex game systems for other platforms such as mobile.",
            "linkButtons":[
               {
                  "Name":"Site",
@@ -524,8 +523,8 @@ const StaticTextJSON  = `[
               "User Interaction"
            ],
            "logo":"https://upload.wikimedia.org/wikipedia/commons/d/da/Unreal_Engine_Logo.svg",
-           "previewText":"weewgwegwegewgwegewgewgewgw",
-           "fullText":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tristique, nisl quis pellentesque vulputate, dui ligula mattis nisi, nec ornare leo velit quis magna. Nullam sed pulvinar lectus, vel vulputate ligula. Phasellus ac convallis lorem, quis efficitur quam. Pellentesque commodo condimentum augue non pulvinar.",
+           "previewText":"Upcoming NDA project that utilizes newest technology such as ray-tracing to push visual fidelity and immerse players in a story driven narrative.",
+           "fullText":"Implemented complex locomotion controller that physically interacts with the world through root motion and advanced run-time IK limb adjustments. Implemented new game systems alongside bespoke client-facing tooling such as object interaction where game designers can easily create new items into the world with complete interactions and UI for the player’s character to physically interact with and manipulate.",
            "linkButtons":null,
            "state":0
         },
@@ -534,7 +533,7 @@ const StaticTextJSON  = `[
            "image":"/content/projects/unitySynthDungeon.gif",
            "mainTag":{
               "name":"University",
-              "color":"#bf8f15"
+              "color":"#d9a41c"
            },
            "tags":[
               "Tools",
@@ -557,7 +556,7 @@ const StaticTextJSON  = `[
            "image":"/content/projects/unityGravity.gif",
            "mainTag":{
               "name":"University",
-              "color":"#bf8f15"
+              "color":"#d9a41c"
            },
            "tags":[
               "C#",
@@ -580,7 +579,7 @@ const StaticTextJSON  = `[
            "image":"/content/projects/unityParty.png",
            "mainTag":{
               "name":"University",
-              "color":"#bf8f15"
+              "color":"#d9a41c"
            },
            "tags":[
               "C#",
@@ -604,7 +603,7 @@ const StaticTextJSON  = `[
            "image":"/content/projects/unityTDShooter.gif",
            "mainTag":{
               "name":"University",
-              "color":"#bf8f15"
+              "color":"#d9a41c"
            },
            "tags":[
               "C#",
@@ -627,7 +626,7 @@ const StaticTextJSON  = `[
            "image":"/content/projects/cppModelLoader.png",
            "mainTag":{
               "name":"University",
-              "color":"#bf8f15"
+              "color":"#d9a41c"
            },
            "tags":[
               "C++",
@@ -651,7 +650,7 @@ const StaticTextJSON  = `[
            "image":"/content/projects/cppPhysics.gif",
            "mainTag":{
               "name":"University",
-              "color":"#bf8f15"
+              "color":"#d9a41c"
            },
            "tags":[
               "C++",
@@ -661,7 +660,7 @@ const StaticTextJSON  = `[
            ],
            "logo":"content/openGL.png",
            "previewText":"Project integrates multiple essential libraries such as GLEW, GLFW and STB image for more versatility and end-user experience as these libraries are abstracted out into more game engine inspired layout with game objects, user input and application layers where the end-user doesn’t have to interact with any of the OpenGL functions.",
-           "fullText":"This project was developed after the model loader with that many things have been improve and existing skills mentioned before further improved and new ones gained. One of the most notable skills that I acquired during this project was the integration of existing codebases and using them to create a more user-friendly experience, first by studying existing game engines such as Unity and create a new library that abstract redundant functions and automate some processes.",
+           "fullText":"This project was developed after the model loader with that many things have been improved and existing skills mentioned before further improved and new ones gained. One of the most notable skills that I acquired during this project was the integration of existing codebases and using them to create a more user-friendly experience, first by studying existing game engines such as Unity and creating a new library that abstract redundant functions and automate some processes.",
            "linkButtons":[
               {
                  "Name":"GitHub",
@@ -675,7 +674,7 @@ const StaticTextJSON  = `[
            "image":"/content/projects/csharpAnts.gif",
            "mainTag":{
               "name":"University",
-              "color":"#bf8f15"
+              "color":"#d9a41c"
            },
            "tags":[
               "C#",
