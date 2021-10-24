@@ -25,6 +25,11 @@ body,html
     font-weight: bold;
 }
 
+projectCard-PreviewButton
+{
+    color: white;
+}
+
 .headerLinks
 {
     margin-left: 35%;

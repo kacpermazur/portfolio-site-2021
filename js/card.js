@@ -25,7 +25,7 @@ const CARD_STATE = {"CLOSED": 0, "OPENED": 1, "HOVER": 2, "TRANSITION":3};
 
 class Card
 {
-    constructor()
+    constructor(obj)
     {
         this.title = "projectTitle";
         this.image = "https://via.placeholder.com/600x270.png";
@@ -40,6 +40,8 @@ class Card
                         tempor sed, fringilla nec eros. In gravida erat diam, sed tincidunt sapien varius a. Donec sodales risus sed.`;
         this.linkButtons = [{"Name":"GitHub", "Link":"#"},{"Name":"YouTube", "Link":"#"}];
         
+
+        for (var prop in obj) this[prop] = obj[prop];
         this.state = CARD_STATE.CLOSED;
     }
 
@@ -68,7 +70,7 @@ class Card
         const previewButton = CardHTML.getElementsByClassName(CARD_PREVIEW_BUTTON)[0];
         const previewImage  = CardHTML.parentElement.getElementsByClassName(CARD_IMAGE)[0];
 
-        previewImage.style.filter = "blur(3px) brightness(50%)";
+        previewImage.style.filter = "blur(3px) brightness(25%)";
         //previewImage.style.filter = "";
 
         await Promise.all([
@@ -85,7 +87,7 @@ class Card
         const previewButton = CardHTML.getElementsByClassName(CARD_PREVIEW_BUTTON)[0];
         const previewImage  = CardHTML.parentElement.getElementsByClassName(CARD_IMAGE)[0];
 
-        previewImage.style.filter = "blur(0px) brightness(100%)";
+        previewImage.style.filter = "blur(0px) brightness(60%)";
 
         await Promise.all([
             (async() => await Card.Transition(previewText, 'text-blur-out', 415, '0')) (),
@@ -134,7 +136,7 @@ class Card
         const hideText   = Card.HideShowSingle(fullText, false, 200);
         const hideBtn    = Card.HideShowSingle(hideButton, false, 200);
         const hideLinks  = Card.HideShowCollection(CardHTML.getElementsByClassName(CARD_LINK_BUTTON), false, 200);
-        const reSize     = Card.DynmaicResize({ html:fullBody, size:'0px' }, { html:image, size:'300px', blurSize: 'blur(0px) brightness(100%)' }, 250);
+        const reSize     = Card.DynmaicResize({ html:fullBody, size:'0px' }, { html:image, size:'300px', blurSize: 'blur(0px) brightness(60%)' }, 250);
 
         previewText.style.opacity = 0;
         previewButton.style.opacity = 0;
@@ -220,7 +222,7 @@ class Card
         const cardTemplate = `
     <div class="card text-white projectCard">
 
-        <img class="card-img projectCard-Image" src="${Card.image}" alt="bgImage" style="filter: blur(0); height: 300px">
+        <img class="card-img projectCard-Image" src="${Card.image}" alt="bgImage" style="filter: blur(0px) brightness(60%); height: 300px;">
 
         <div class="card-img-overlay projectCard-OverlayZone">
         
@@ -243,7 +245,7 @@ class Card
                 </div>
 
                 <div class="col-12 align-self-end text-center">
-                    <button class="btn btn-outline-primary projectCard-PreviewButton" type="button" style="opacity: 0;">Show More</button>
+                    <button class="btn btn-outline-light projectCard-PreviewButton" type="button" style="opacity: 0;">Show More</button>
                 </div>
 
             </div>
@@ -257,7 +259,7 @@ class Card
             </div>
 
             <div class="col-12 align-self-end text-center projectCard-ButtonArea">
-                <button class="btn btn-outline-primary projectCard-HideButton float-end d-none" type="button">Close</button>
+                <button class="btn btn-outline-dark projectCard-HideButton float-end d-none" type="button">Close</button>
             </div>
 
         </div>
@@ -275,7 +277,8 @@ class Card
         fullText.innerHTML = Card.fullText;
 
         const buttonArea = tempCardHTML.getElementsByClassName(CARD_BUTTON_AREA)[0];
-        Card.linkButtons.forEach(site => { buttonArea.innerHTML += `<a class="btn btn-outline-info projectCard-LinkButton float-start d-none" href="${site.Link}" role="button">${site.Name}</a>`; });
+        if(Card.linkButtons != null)
+            Card.linkButtons.forEach(site => { buttonArea.innerHTML += `<a class="btn btn-outline-info projectCard-LinkButton float-start d-none" href="${site.Link}" role="button">${site.Name}</a>`; });
 
         return tempCardHTML;
     }
@@ -390,6 +393,21 @@ class CardFactory
 
         cardRef.Close(cardHTML);
     }
+
+    static ConvertObjectArrayToType(textJSON)
+    {
+        const jsonData = JSON.parse(textJSON);
+
+        if(jsonData.length < 1)
+        {
+            console.log(`JSON Data empty unable to convert!`);
+            return;
+        }
+
+        let newArr = [];
+        jsonData.forEach(obj => newArr.push(new Card(obj)));
+        return newArr;
+    }
 }
 
 if(document.readyState == 'loading')
@@ -403,7 +421,7 @@ else
 
 function Start()
 {
-    TestCards(TEST.SINGLE);
+    TestCards(TEST.MULTI);
     CardFactory.LogCards();
 }
 
@@ -418,30 +436,256 @@ function TestCards(test)
 
         let testCard = new Card();
 
-        let comsicCard = new Card(); comsicCard.SetData("Comsic Frontline AR", "/content/projects/unityHofliCosmic.gif", {name:"Hofli", color:"#fa2742"}, ["Tools", "Game Systems", "Moblie", "AR"], Logo.Unity,
-                                        "Developed for Andrioid & iOS, Cosmic Frontline is visually stunning AR strategy game with responsive AI and selections of challenges.",
-                                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tristique, nisl quis pellentesque vulputate, dui ligula mattis nisi, nec ornare leo velit quis magna. Nullam sed pulvinar lectus, vel vulputate ligula. Phasellus ac convallis lorem, quis efficitur quam. Pellentesque commodo condimentum augue non pulvinar.",
-                                        [{"Name":"Site", "Link":"https://hofli.com/cosmic-frontline/"}, {"Name":"YouTube", "Link":"https://www.youtube.com/watch?v=21z3zoPaShs"}, 
-                                         {"Name":"AppStore", "Link":"https://apps.apple.com/app/cosmic-frontline-ar/id1441521950"}, {"Name":"PlayStore", "Link":"https://play.google.com/store/apps/details?id=com.hofli.cosmicfrontline"}]);
-
-        CardFactory.Add(comsicCard);
+        
+        CardFactory.Add(testCard);
     }
     else
     {
         console.log("===== Card Array Test =====");
-
-        let arrayCards = [new Card(), new Card(), new Card(), new Card()];
-        arrayCards[0].title = "Project A"; arrayCards[1].title = "Project B"; arrayCards[2].title = "Project C"; arrayCards[3].title = "Project D";
     
+        const arrayCards = CardFactory.ConvertObjectArrayToType(StaticTextJSON);
         CardFactory.AddCollection(arrayCards);
     }
 }
 
-function StaticCreateCards()
-{
-    let comsicCard = new Card().SetData("Comsic Frontline AR", "/content/projects/unityHofliCosmic.gif", {name:"Hofli", color:"#fa2742"}, ["Tools", "Game Systems", "Moblie", "AR"], Logo.Unity,
-                                        "Developed for Andrioid & iOS, Cosmic Frontline is visually stunning AR strategy game with responsive AI and selections of challenges.",
-                                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tristique, nisl quis pellentesque vulputate, dui ligula mattis nisi, nec ornare leo velit quis magna. Nullam sed pulvinar lectus, vel vulputate ligula. Phasellus ac convallis lorem, quis efficitur quam. Pellentesque commodo condimentum augue non pulvinar.",
-                                        [{"Name":"Site", "Link":"https://hofli.com/cosmic-frontline/"}, {"Name":"YouTube", "Link":"https://www.youtube.com/watch?v=21z3zoPaShs"}, 
-                                         {"Name":"AppStore", "Link":"https://apps.apple.com/app/cosmic-frontline-ar/id1441521950"}, {"Name":"PlayStore", "Link":"https://play.google.com/store/apps/details?id=com.hofli.cosmicfrontline"}]);
-}
+const StaticTextJSON  = `[
+        {
+           "title":"Comsic Frontline AR",
+           "image":"/content/projects/unityHofliCosmic.gif",
+           "mainTag":{
+              "name":"Hofli",
+              "color":"#fa2742"
+           },
+           "tags":[
+              "Tools",
+              "Game Systems",
+              "Android, iOS",
+              "AR"
+           ],
+           "logo":"https://upload.wikimedia.org/wikipedia/commons/c/c4/Unity_2021.svg",
+           "previewText":"Developed for Andrioid & iOS, Cosmic Frontline is visually stunning AR strategy game with responsive AI and selections of challenges.",
+           "fullText":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tristique, nisl quis pellentesque vulputate, dui ligula mattis nisi, nec ornare leo velit quis magna. Nullam sed pulvinar lectus, vel vulputate ligula. Phasellus ac convallis lorem, quis efficitur quam. Pellentesque commodo condimentum augue non pulvinar.",
+           "linkButtons":[
+              {
+                 "Name":"Site",
+                 "Link":"https://hofli.com/cosmic-frontline/"
+              },
+              {
+                 "Name":"YouTube",
+                 "Link":"https://www.youtube.com/watch?v=21z3zoPaShs"
+              },
+              {
+                 "Name":"AppStore",
+                 "Link":"https://apps.apple.com/app/cosmic-frontline-ar/id1441521950"
+              },
+              {
+                 "Name":"PlayStore",
+                 "Link":"https://play.google.com/store/apps/details?id=com.hofli.cosmicfrontline"
+              }
+           ],
+           "state":0
+        },
+        {
+           "title":"Guild Builder",
+           "image":"/content/projects/unityQQGuildBuilder.png",
+           "mainTag":{
+              "name":"QQ",
+              "color":"#e61d33"
+           },
+           "tags":[
+              "Tools",
+              "Game Systems",
+              "Windows",
+              "Multithreading",
+              "Optimization"
+           ],
+           "logo":"https://upload.wikimedia.org/wikipedia/commons/c/c4/Unity_2021.svg",
+           "previewText":"A 2D slice-of-life RPG set in an endearing fantasy world...",
+           "fullText":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tristique, nisl quis pellentesque vulputate, dui ligula mattis nisi, nec ornare leo velit quis magna. Nullam sed pulvinar lectus, vel vulputate ligula. Phasellus ac convallis lorem, quis efficitur quam. Pellentesque commodo condimentum augue non pulvinar.",
+           "linkButtons":[
+              {
+                 "Name":"Site",
+                 "Link":"https://ukgamesfund.com/funded-project/project-guild-builder/"
+              }
+           ],
+           "state":0
+        },
+        {
+           "title":"House Of Mistwalker",
+           "image":"/content/projects/unrealMist.png",
+           "mainTag":{
+              "name":"NDA",
+              "color":"#7f0ea1"
+           },
+           "tags":[
+              "Raytracing",
+              "Game Systems",
+              "Advance Locomotion",
+              "User Interaction"
+           ],
+           "logo":"https://upload.wikimedia.org/wikipedia/commons/d/da/Unreal_Engine_Logo.svg",
+           "previewText":"weewgwegwegewgwegewgewgewgw",
+           "fullText":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tristique, nisl quis pellentesque vulputate, dui ligula mattis nisi, nec ornare leo velit quis magna. Nullam sed pulvinar lectus, vel vulputate ligula. Phasellus ac convallis lorem, quis efficitur quam. Pellentesque commodo condimentum augue non pulvinar.",
+           "linkButtons":null,
+           "state":0
+        },
+        {
+           "title":"Synthetic Dungeon",
+           "image":"/content/projects/unitySynthDungeon.gif",
+           "mainTag":{
+              "name":"University",
+              "color":"#bf8f15"
+           },
+           "tags":[
+              "Tools",
+              "Game Systems",
+              "AI"
+           ],
+           "logo":"https://upload.wikimedia.org/wikipedia/commons/c/c4/Unity_2021.svg",
+           "previewText":"Top-down action RPG dungeon crawler (prototype), where you play as a knight progressing through endless hordes of monsters as you craft more powerful spells and venture through depths of the dark dungeons.",
+           "fullText":"One of the most notable skills I have taken away from this project is creating an exponentially scalable spell system that uses Unity’s scriptable objects as composite components that come together to create complex logic and form a spell. These components are designed to be simple and abstract most of the boiler code where the developer can focus on the implementation of behaviour rather than its interactions. Another take back from this project was the AI system, going with the same inspiration from spell system, its a mixture of simple reusable composite actions and conditions that come together like lego pieces to create complex behaviours while maintaining readability and reducing complexity.",
+           "linkButtons":[
+              {
+                 "Name":"GitHub",
+                 "Link":"https://github.com/kacpermazur/Synthetic-Dungeon"
+              }
+           ],
+           "state":0
+        },
+        {
+           "title":"G-Well",
+           "image":"/content/projects/unityGravity.gif",
+           "mainTag":{
+              "name":"University",
+              "color":"#bf8f15"
+           },
+           "tags":[
+              "C#",
+              "Game Systems",
+              "Game Desgin"
+           ],
+           "logo":"https://upload.wikimedia.org/wikipedia/commons/c/c4/Unity_2021.svg",
+           "previewText":"First-person jumping puzzle game. A world filled with floating islands surrounds you and your only means of traversing this strange landscape is your ability to create orbs that manipulate gravity. Use them to bend your trajectory and progress through each island. Explore this seemingly endless world of floating islands and find your way home.",
+           "fullText":"New skills that I have learned while working on this project are working with unity physics. Creating gravity projectiles that correctly affects players based on their speed, mass and direction. Another notable skill taken from this project was from the design side where it involved creating a new unique mechanic from scratch and further iterating through it by using different methods such as setting up tests and getting user feedback and using that information to further improve the core mechanic.",
+           "linkButtons":[
+              {
+                 "Name":"GitHub",
+                 "Link":"https://github.com/kacpermazur/AINT254-Interactive-Systems"
+              }
+           ],
+           "state":0
+        },
+        {
+           "title":"Push n Bash",
+           "image":"/content/projects/unityParty.png",
+           "mainTag":{
+              "name":"University",
+              "color":"#bf8f15"
+           },
+           "tags":[
+              "C#",
+              "Game Systems",
+              "Game Desgin",
+              "Cross-platform Input"
+           ],
+           "logo":"https://upload.wikimedia.org/wikipedia/commons/c/c4/Unity_2021.svg",
+           "previewText":"Local co-op party game where the goal of the game is to play against your friends and beat them in an array of rounds. The game consists of 4 individual players fighting it out for a top spot.",
+           "fullText":"When working on this prototype project I have gained a number of new skills one of the most notable ones is using Unity’s new input system and working with multiple user inputs at the same time. Another skill taken from this project was designing systems ahead for the future such as making a robust system in custom rules to create new mini-games so further implementation of new content is easier without the developer worrying about trivial logic such as checking if a certain player is out. From a design point of view, I have learned how to create a game aimed at everyone, no matter what their skill level where the approach was “less is more” such as only having 2 basic skills for the player to use but also versatile enough for them to be more useful when a player knows how to use them correctly they get rewards so it still keeps the players that have game experience interested in playing the game.",
+           "linkButtons":[
+              {
+                 "Name":"GitHub",
+                 "Link":"https://github.com/kacpermazur/PartyGame"
+              }
+           ],
+           "state":0
+        },
+        {
+           "title":"Mini Dungeon Slayer",
+           "image":"/content/projects/unityTDShooter.gif",
+           "mainTag":{
+              "name":"University",
+              "color":"#bf8f15"
+           },
+           "tags":[
+              "C#",
+              "Game Systems",
+              "Game Desgin"
+           ],
+           "logo":"https://upload.wikimedia.org/wikipedia/commons/c/c4/Unity_2021.svg",
+           "previewText":"top-down survival game, each round gets progressively harder as the vast number of aliens increase each round and try to hunt you down. As the only survivor left stranged in strangely unstable dimension only armed with a pistol, it’s your goal to fight the endless hordes of aliens.",
+           "fullText":"This was one the first game I made using unity and I have learned many technical and design skills about game design and Unity. One of the most notable was designing separate systems such as creating the infinite scaling wave system while using the Unity API for the first time. This was also the first time exploring programming design patterns and game system such using singleton pattern for the game manager and passing references through that. From the game design point of view, I’ve learned the importance of user testing and how to use that data to further improve gameplay.",
+           "linkButtons":[
+              {
+                 "Name":"GitHub",
+                 "Link":"https://github.com/kacpermazur/AINT152-GAMES-WORKSHOP"
+              }
+           ],
+           "state":0
+        },
+        {
+           "title":"OpenGL Model Loader",
+           "image":"/content/projects/cppModelLoader.png",
+           "mainTag":{
+              "name":"University",
+              "color":"#bf8f15"
+           },
+           "tags":[
+              "C++",
+              "Memory Managment",
+              "Redering",
+              "Optimization"
+           ],
+           "logo":"content/openGL.png",
+           "previewText":"Header-only obj loader that is able to load files and uncompress files into a mesh format that later is passed into the renderer. The project also has an example code with the loader in action. Able to compress vertices up to 82% e.g. model with 120k vertices down to 21k after removing duplicates.",
+           "fullText":"During this project, I have learned a great deal about C++ and memory management and OpenGL and how to efficiently render objects from files. From the C++ side, the most notable skills learned was the use of L and R values to pass data appropriately onto a stack or heap. As for the OpenGL side, I have learned how the API works in terms of how data is handled before the GPU renders it and how to abstract the C API library into a more user-friendly and automated way to reduce redundant code and improve readability. As for the model loading part, creating a suitable data structure to store the data that is being loaded and creating an efficient face parsing algorithm.",
+           "linkButtons":[
+              {
+                 "Name":"GitHub",
+                 "Link":"https://github.com/kacpermazur/OpenGL-Model-Loader"
+              }
+           ],
+           "state":0
+        },
+        {
+           "title":"OpenGL Physics",
+           "image":"/content/projects/cppPhysics.gif",
+           "mainTag":{
+              "name":"University",
+              "color":"#bf8f15"
+           },
+           "tags":[
+              "C++",
+              "Memory Managment",
+              "Engines",
+              "Optimization"
+           ],
+           "logo":"content/openGL.png",
+           "previewText":"Project integrates multiple essential libraries such as GLEW, GLFW and STB image for more versatility and end-user experience as these libraries are abstracted out into more game engine inspired layout with game objects, user input and application layers where the end-user doesn’t have to interact with any of the OpenGL functions.",
+           "fullText":"This project was developed after the model loader with that many things have been improve and existing skills mentioned before further improved and new ones gained. One of the most notable skills that I acquired during this project was the integration of existing codebases and using them to create a more user-friendly experience, first by studying existing game engines such as Unity and create a new library that abstract redundant functions and automate some processes.",
+           "linkButtons":[
+              {
+                 "Name":"GitHub",
+                 "Link":"https://github.com/kacpermazur/OpenGL-Phyics-"
+              }
+           ],
+           "state":0
+        },
+        {
+           "title":"Ants",
+           "image":"/content/projects/csharpAnts.gif",
+           "mainTag":{
+              "name":"University",
+              "color":"#bf8f15"
+           },
+           "tags":[
+              "C#",
+              "Software",
+              "AI"
+           ],
+           "logo":"content/csharp.png",
+           "previewText":"This project was one of my first projects when exploring C#, the program simulates ants behaviour where ants have their own nests and they are able to explore and find food and share that information with other ants. They are able to get the food and bring it back to their nest until the food source is depleted.",
+           "fullText":"As this was one of my first projects when exploring C# I have learned many fundamental skills but the most notable one was developing new logic such as ants objects and their behaviours and integrating them into the existing codebase. Another notable skill learned was the use of states such as Agents knowing they if have food location or not and changing their behaviour accordingly.",
+           "linkButtons":null,
+           "state":0
+        }
+     ]`;
